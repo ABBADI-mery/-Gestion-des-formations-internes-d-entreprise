@@ -35,4 +35,4 @@ En résumé, l'objectif est de moderniser la gestion des formations internes, d'
 
 ## Diagramme de classe
 
-![Diagramme de classe ]("C:\Users\pc\Desktop\projet java web\classe.png")
+![Diagramme de classe ](images/classe.png)
