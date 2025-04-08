@@ -1,26 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities;
 
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import java.util.List;
+import javax.persistence.*;
 
 @Entity
-@Table(name="users")
+@Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
+
 public class User {
+
     @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column (name="nom")
     private String nom;
     private String email;
     private String motDePasse;
@@ -65,7 +56,4 @@ public class User {
     public void setMotDePasse(String motDePasse) {
         this.motDePasse = motDePasse;
     }
-    
-    
-    
 }

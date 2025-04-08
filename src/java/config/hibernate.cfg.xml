@@ -10,5 +10,10 @@
     <property name="hibernate.format_sql">true</property>
     <property name="hibernate.hbm2ddl.auto">create</property>
     <mapping class="entities.User"/>
+    <mapping class="entities.FormationInterne"/>
+    <mapping class="entities.Participation"/>
+    <mapping class="entities.SessionFormation"/>
+    <mapping class="entities.Client"/>
+    <mapping class="entities.Admin"/>
   </session-factory>
 </hibernate-configuration>

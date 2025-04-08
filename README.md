@@ -35,4 +35,14 @@ En résumé, l'objectif est de moderniser la gestion des formations internes, d'
 
 ## Diagramme de classe
 
-![Diagramme de classe ](images/classe.png)
+![Diagramme de classe ](images/diagrammeClasse.png)
+
+## Modèle conceptuel de la base généré
+![La base de données ](images/Bd.png)
+
+## Exécution des tests dans la console
+![La création des table : Admin,Client,formation_internes,participations,sessions_foramtion,users ](images/Tables.png)
+![Ajout de clés étrangères ](images/tablesss.png)
+![Insertion des données dans les table:users,Admin,Client ](images/insert1.png)
+
+![Insertion des données dans les table:formation_internes, sessions_foramtion,participations](images/insert2.png)
