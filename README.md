@@ -46,3 +46,8 @@ En résumé, l'objectif est de moderniser la gestion des formations internes, d'
 ![Insertion des données dans les table:users,Admin,Client ](images/insert1.png)
 
 ![Insertion des données dans les table:formation_internes, sessions_foramtion,participations](images/insert2.png)
+![Selection des données dans les table](images/selection1.png)
+![Selection des données dans les table](images/selection2.png)
+
+
+
