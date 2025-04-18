@@ -3,6 +3,10 @@ package entities;
 import javax.persistence.*;
 
 @Entity
+@NamedQuery(
+    name = "User.findByEmail",
+    query = "SELECT u FROM User u WHERE u.email = :email"
+)
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
 

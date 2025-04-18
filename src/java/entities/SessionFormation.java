@@ -5,7 +5,22 @@ import java.util.List;
 import javax.persistence.*;
 
 @Entity
+@NamedQueries({
+    @NamedQuery(
+            name = "SessionFormation.findByTheme",
+            query = "SELECT s FROM SessionFormation s WHERE s.formation.theme = :theme"
+    ),
+    @NamedQuery(
+            name = "SessionFormation.findByDate",
+            query = "SELECT s FROM SessionFormation s WHERE s.date = :date"
+    ),
+    @NamedQuery(
+            name = "SessionFormation.findByFormateur",
+            query = "SELECT s FROM SessionFormation s WHERE s.formateur = :nomFormateur"
+    )
+})
 @Table(name = "sessions_formation")
+
 public class SessionFormation {
 
     @Id

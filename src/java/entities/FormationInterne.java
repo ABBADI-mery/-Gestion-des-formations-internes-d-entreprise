@@ -5,6 +5,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "formations_internes")
+@NamedNativeQuery(
+        name = "FormationInterne.findSessionsByFormationId",
+        query = "SELECT s.* FROM session_formation s WHERE s.formation_id = :formationId",
+        resultClass = SessionFormation.class
+)
 public class FormationInterne {
 
     @Id

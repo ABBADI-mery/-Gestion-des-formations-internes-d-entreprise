@@ -3,6 +3,12 @@ package entities;
 import javax.persistence.*;
 
 @Entity
+@NamedQueries({
+    @NamedQuery(
+            name = "Participation.findByClient",
+            query = "SELECT p FROM Participation p WHERE p.client.id = :clientId"
+    )
+})
 @Table(name = "participations")
 public class Participation {
 
@@ -24,6 +30,7 @@ public class Participation {
     public Participation(SessionFormation sessionFormation, Client client) {
         this.sessionFormation = sessionFormation;
         this.client = client;
+        this.id = new ParticipationId(sessionFormation.getId(), client.getId());
     }
 
     public ParticipationId getId() {
@@ -54,5 +61,5 @@ public class Participation {
     public String toString() {
         return "Participation{" + "id=" + id + ", sessionFormation=" + sessionFormation + ", client=" + client + '}';
     }
-    
+
 }

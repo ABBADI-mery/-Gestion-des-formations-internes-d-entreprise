@@ -14,7 +14,6 @@ import entities.Participation;
 import util.HibernateUtil;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class Test {
 
@@ -47,14 +46,30 @@ public class Test {
 
         // Créer une session pour cette formation
         SessionFormation session = new SessionFormation(formation, LocalDate.of(2025, 4, 20), "Mme El Yassir");
+        SessionFormation session2 = new SessionFormation(formation, LocalDate.of(2025, 5, 5), "Mr Amine");
+        SessionFormation session3 = new SessionFormation(formation, LocalDate.of(2025, 6, 10), "Mme Nadia");
+
         sessionDao.create(session);
+        sessionDao.create(session2);
+        sessionDao.create(session3);
 
         // Inscrire les clients à la session
         Participation participation1 = new Participation(session, client1);
         Participation participation2 = new Participation(session, client2);
+        // Participation à session2
+        Participation participation3 = new Participation(session2, client1);
+        Participation participation4 = new Participation(session2, client3);
+
+        // Participation à session3
+        Participation participation5 = new Participation(session3, client2);
+        Participation participation6 = new Participation(session3, client3);
 
         participationDao.create(participation1);
         participationDao.create(participation2);
+        participationDao.create(participation3);
+        participationDao.create(participation4);
+        participationDao.create(participation5);
+        participationDao.create(participation6);
 
         //  Afficher toutes les participations
         System.out.println("\n Toutes les participations :");
@@ -62,7 +77,7 @@ public class Test {
             System.out.println(p);
         }
 
-        //  Participations d’un client spécifique (par ID)
+        //Participations d’un client spécifique (par ID)
         System.out.println("\n Participations de la cliente meryam :");
         for (Participation p : participationDao.findAll()) {
             if (p.getClient().getId() == client1.getId()) {

@@ -16,4 +16,9 @@ public class ClientDao extends AbstractDao<Client> {
     public ClientDao() {
         super(Client.class);
     }
+
+    public Client findByEmail(String email) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
