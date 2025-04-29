@@ -1,201 +1,385 @@
 <%@page import="services.FormationService"%>
 <%@page import="entities.FormationInterne"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Gestion des Formations</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2Lq7V++lGS2X5kzZG1qEfrgLZ7N1Fv7JhtEXREs8IoxFj6gXj4z8A0v8xdpz" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MeryAcademi | Gestion des Formations</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        :root {
+            --primary: #7E57C2;
+            --primary-light: #B39DDB;
+            --primary-dark: #5E35B1;
+            --accent: #FF9800;
+            --text-light: #F5F5F5;
+            --text-dark: #212121;
+            --bg-light: #F9F9F9;
+            --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
         body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px; /* Réduire le padding global */
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            display: flex;
+            min-height: 100vh;
         }
-        .form-container {
-            max-width: 1000px; /* Agrandir la largeur maximale du conteneur */
-            margin: 0 auto;
+        
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: linear-gradient(145deg, var(--primary-dark), var(--primary));
+            color: var(--text-light);
+            height: 100vh;
+            position: fixed;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+            z-index: 100;
         }
-        fieldset {
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 15px; /* Réduire le padding du fieldset */
-            margin-bottom: 20px; /* Réduire la marge inférieure */
-            background-color: #fff;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+        
+        .brand {
+            padding: 25px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        legend {
-            font-size: 1.1rem; /* Réduire la taille de la légende */
-            color: #007bff;
-            font-weight: bold;
-            width: auto;
-            padding: 0 8px; /* Réduire le padding de la légende */
-            border-bottom: none;
-            margin-bottom: 10px; /* Réduire la marge inférieure de la légende */
-        }
-        .form-group {
+        
+        .brand-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
             display: flex;
             align-items: center;
-            margin-bottom: 10px; /* Réduire la marge inférieure des groupes de formulaire */
+            justify-content: center;
+            margin-bottom: 5px;
         }
-        .form-group label {
-            font-weight: bold;
-            color: #495057;
-            width: 140px; /* Réduire la largeur du label */
-            margin-right: 8px; /* Réduire la marge à droite du label */
-            font-size: 0.9rem; /* Réduire la taille de la police du label */
+        
+        .brand-logo i {
+            margin-right: 10px;
+            color: var(--accent);
         }
-        .form-control {
-            border-radius: 5px;
-            border: 1px solid #ced4da;
-            padding: 0.5rem 0.75rem; /* Réduire le padding de l'input */
-            flex-grow: 1;
-            height: 20px; /* Réduire la hauteur de l'input */
+        
+        .brand-tagline {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            font-weight: 300;
+        }
+        
+        .nav-menu {
+            padding: 20px 0;
+        }
+        
+        .nav-item {
+            padding: 12px 25px;
+            margin: 0 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: var(--text-light);
+            text-decoration: none;
+        }
+        
+        .nav-item i {
+            width: 24px;
+            margin-right: 15px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.2);
+            border-left: 4px solid var(--accent);
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 30px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .page-title h1 {
+            font-size: 1.8rem;
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+        
+        .page-title p {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 30px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .user-profile img {
             width: 40px;
-            font-size: 0.9rem; /* Réduire la taille de la police de l'input */
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+            object-fit: cover;
         }
-        .form-control:focus {
-            border-color: #007bff;
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+        
+        /* Formations Content */
+        .form-container {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
         }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-            border-radius: 5px;
-            padding: 0.5rem 1rem; /* Réduire le padding du bouton */
-            transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
-            margin-top: 10px; /* Réduire la marge du bouton */
-            font-size: 0.9rem; /* Réduire la taille de la police du bouton */
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-        .table {
-            background-color: #fff;
+        
+        fieldset {
+            border: 1px solid #eee;
             border-radius: 8px;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
-            width: 100%; /* Le tableau prend toute la largeur disponible */
+            padding: 20px;
+            margin-bottom: 25px;
         }
+        
+        legend {
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 600;
+            padding: 0 10px;
+            width: auto;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .form-control {
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 0.2rem rgba(126, 87, 194, 0.25);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+        
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
         .table th {
-            background-color: #343a40;
+            background-color: var(--primary);
             color: white;
-            text-align: center;
-            padding: 0.75rem; /* Réduire le padding des headers */
-            border-bottom: 2px solid #495057;
-            font-size: 0.9rem; /* Réduire la taille de la police des headers */
+            font-weight: 500;
+            padding: 12px 15px;
+            text-align: left;
         }
+        
         .table td {
-            text-align: center;
-            padding: 0.5rem; /* Réduire le padding des cellules */
-            border-bottom: 1px solid #dee2e6;
-            font-size: 0.9rem; /* Réduire la taille de la police des cellules */
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
         }
-        .table tbody tr:nth-child(even) {
-            background-color: #f8f9fa;
+        
+        .table tr:nth-child(even) {
+            background-color: #fafafa;
         }
-        .btn-warning, .btn-danger {
-            border-radius: 5px;
-            padding: 0.3rem 0.6rem; /* Réduire le padding des boutons d'action */
-            color: white;
-            border: none;
-            transition: opacity 0.15s ease-in-out;
-            text-decoration: none !important;
-            font-size: 0.8rem; /* Réduire la taille de la police des boutons d'action */
-        }
+        
         .btn-warning {
-            background-color: #ffc107;
+            background-color: #FFA000;
+            border-color: #FFA000;
+            color: white;
         }
-        .btn-warning:hover {
-            opacity: 0.85;
-        }
+        
         .btn-danger {
-            background-color: #dc3545;
+            background-color: #E53935;
+            border-color: #E53935;
+            color: white;
         }
-        .btn-danger:hover {
-            opacity: 0.85;
-        }
+        
         .alert {
-            border-radius: 5px;
-            margin-top: 15px; /* Réduire la marge du haut des alertes */
-            padding: 0.75rem 1rem; /* Réduire le padding des alertes */
-            font-size: 0.9rem; /* Réduire la taille de la police des alertes */
-        }
-        .alert-success {
-            background-color: #d4edda;
-            border-color: #c3e6cb;
-            color: #155724;
-        }
-        .alert-danger {
-            background-color: #f8d7da;
-            border-color: #f5c6cb;
-            color: #721c24;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="brand">
+            <div class="brand-logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>MeryAcademi</span>
+            </div>
+            <div class="brand-tagline">Plateforme d'éducation digitale</div>
+        </div>
+        
+        <div class="nav-menu">
+            <a href="../users/admin.jsp" class="nav-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Tableau de bord</span>
+            </a>
+            <a href="../formations/page.jsp" class="nav-item active">
+                <i class="fas fa-book-open"></i>
+                <span>Formations</span>
+            </a>
+            <a href="../sessions/page.jsp" class="nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Sessions</span>
+            </a>
+            <a href="../users/page.jsp" class="nav-item">
+                <i class="fas fa-users"></i>
+                <span>Utilisateurs</span>
+            </a>
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Statistiques</span>
+            </a>
+            <a href="../logout" class="nav-item">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Déconnexion</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <div class="header">
+            <div class="page-title">
+                <h1>Gestion des Formations</h1>
+                <p>Créez et gérez les formations disponibles</p>
+            </div>
+            
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Admin+Mery&background=7E57C2&color=fff" alt="Admin">
+                <span>Admin</span>
+            </div>
+        </div>
+        
+        <div class="form-container">
+            <div class="alert alert-success" style="display:none;" id="success-alert">Formation enregistrée avec succès!</div>
+            <div class="alert alert-danger" style="display:none;" id="error-alert">Une erreur s'est produite. Veuillez réessayer.</div>
 
-    <div class="form-container">
-        <div class="alert alert-success" style="display:none;" id="success-alert">Formation enregistrée avec succès!</div>
-        <div class="alert alert-danger" style="display:none;" id="error-alert">Une erreur s'est produite. Veuillez réessayer.</div>
+            <fieldset>
+                <legend>Information Formation</legend>
+                <form method="POST" action="../FormationController">
+                    <input type="hidden" name="id" value="<%= request.getParameter("id") != null ? request.getParameter("id") : "" %>" />
+                    <div class="form-group">
+                        <label for="titre">Titre :</label>
+                        <input type="text" class="form-control" id="titre" name="titre" value="<%= request.getParameter("titre") != null ? request.getParameter("titre") : "" %>" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="theme">Thème :</label>
+                        <input type="text" class="form-control" id="theme" name="theme" value="<%= request.getParameter("theme") != null ? request.getParameter("theme") : "" %>" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="duree">Durée (en heures) :</label>
+                        <input type="number" class="form-control" id="duree" name="duree" value="<%= request.getParameter("duree") != null ? request.getParameter("duree") : "" %>" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                </form>
+            </fieldset>
 
-        <fieldset>
-            <legend>Information Formation</legend>
-            <form method="POST" action="../FormationController">
-                <input type="hidden" name="id" value="<%= request.getParameter("id") != null ? request.getParameter("id") : "" %>" />
-                <div class="form-group">
-                    <label for="titre">Titre :</label>
-                    <input type="text" class="form-control" id="titre" name="titre" value="<%= request.getParameter("titre") != null ? request.getParameter("titre") : "" %>" required />
-                </div>
-                <div class="form-group">
-                    <label for="theme">Thème :</label>
-                    <input type="text" class="form-control" id="theme" name="theme" value="<%= request.getParameter("theme") != null ? request.getParameter("theme") : "" %>" required />
-                </div>
-                <div class="form-group">
-                    <label for="duree">Durée (en heures) :</label>
-                    <input type="number" class="form-control" id="duree" name="duree" value="<%= request.getParameter("duree") != null ? request.getParameter("duree") : "" %>" required />
-                </div>
-                <button type="submit" class="btn btn-primary">Enregistrer</button>
-            </form>
-        </fieldset>
-
-        <fieldset>
-            <legend>Liste des Formations</legend>
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Titre</th>
-                        <th>Thème</th>
-                        <th>Durée</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%
-                        FormationService fs = new FormationService();
-                        for(FormationInterne f : fs.findAll()) {
-                    %>
-                    <tr>
-                        <td><%= f.getId() %></td>
-                        <td><%= f.getTitre() %></td>
-                        <td><%= f.getTheme() %></td>
-                        <td><%= f.getDuree() %></td>
-                        <td>
-                            <a href="../FormationController?id=<%= f.getId() %>&op=update" class="btn btn-warning">Modifier</a>
-                            <a href="../FormationController?id=<%= f.getId() %>&op=delete" class="btn btn-danger">Supprimer</a>
-                        </td>
-                    </tr>
-                    <% } %>
-                </tbody>
-            </table>
-        </fieldset>
+            <fieldset>
+                <legend>Liste des Formations</legend>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Titre</th>
+                            <th>Thème</th>
+                            <th>Durée</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                            FormationService fs = new FormationService();
+                            for(FormationInterne f : fs.findAll()) {
+                        %>
+                        <tr>
+                            <td><%= f.getId() %></td>
+                            <td><%= f.getTitre() %></td>
+                            <td><%= f.getTheme() %></td>
+                            <td><%= f.getDuree() %> heures</td>
+                            <td>
+                                <a href="../FormationController?id=<%= f.getId() %>&op=update" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-edit"></i> Modifier
+                                </a>
+                                <a href="../FormationController?id=<%= f.getId() %>&op=delete" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i> Supprimer
+                                </a>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </fieldset>
+        </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4%2F1p%2F4wFq8pzVAiR6p4vFbm91rxhPTz3oxsM" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0gGVO1JFq0tSInHLqJfpeQ%2F9J3w3hGb8o06g0St52jRMTb69" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-XMknnqff3OMtmMN8dB%2F0z2aEmTb0Ws9DjeMCq2uAW%2F%2Fni9%2FSmX1LvF%2FISDtm7B" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Afficher les messages d'alerte si nécessaire
+        <% if(request.getParameter("success") != null) { %>
+            document.getElementById('success-alert').style.display = 'block';
+            setTimeout(() => {
+                document.getElementById('success-alert').style.display = 'none';
+            }, 3000);
+        <% } %>
+        
+        <% if(request.getParameter("error") != null) { %>
+            document.getElementById('error-alert').style.display = 'block';
+        <% } %>
+    </script>
 </body>
 </html>

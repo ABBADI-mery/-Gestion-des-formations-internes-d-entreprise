@@ -1,12 +1,12 @@
 package dao;
 
 import entities.SessionFormation;
+import java.time.LocalDate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
 import java.util.List;
-import java.util.Date;
 
 public class SessionFormationDao extends AbstractDao<SessionFormation> {
 
@@ -36,7 +36,7 @@ public class SessionFormationDao extends AbstractDao<SessionFormation> {
         return sessions;
     }
 
-    public List<SessionFormation> findByDate(Date date) {
+    public List<SessionFormation> findByDate(LocalDate date) {
         Session session = null;
         Transaction tx = null;
         List<SessionFormation> sessions = null;
@@ -53,8 +53,9 @@ public class SessionFormationDao extends AbstractDao<SessionFormation> {
             if (session != null) {
                 session.close();
             }
-        }
+        
         return sessions;
+    }
     }
 
     public List<SessionFormation> findByFormateur(String nomFormateur) {
@@ -77,5 +78,22 @@ public class SessionFormationDao extends AbstractDao<SessionFormation> {
         }
         return sessions;
     }
+    public List<Object[]> countParticipantsBySession() {
+    Session session = null;
+    Transaction tx = null;
+    List<Object[]> stats = null;
+    try {
+        session = HibernateUtil.getSessionFactory().openSession();
+        tx = session.beginTransaction();
+        stats = session.getNamedQuery("SessionFormation.countParticipantsBySession").list();
+        tx.commit();
+    } catch (HibernateException e) {
+        if (tx != null) tx.rollback();
+        throw e;
+    } finally {
+        if (session != null) session.close();
+    }
+    return stats;
+}
 
 }

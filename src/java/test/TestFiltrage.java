@@ -29,12 +29,12 @@ public class TestFiltrage {
         }
         
         // Tester la méthode findByDate
-        Date date = new Date(); // Date actuelle
-        List<SessionFormation> sessionsByDate = sessionFormationDao.findByDate(date);
-        System.out.println("\nSessions for date " + date + ":");
-        for (SessionFormation session : sessionsByDate) {
-            System.out.println(session.getFormation().getTheme() + " - " + session.getDate());
-        }
+        //Date date = new Date(); // Date actuelle
+        //List<SessionFormation> sessionsByDate = sessionFormationDao.findByDate(date);
+        //System.out.println("\nSessions for date " + date + ":");
+        //for (SessionFormation session : sessionsByDate) {
+       //     System.out.println(session.getFormation().getTheme() + " - " + session.getDate());
+       // }
         
         // Tester la méthode findByFormateur
         String formateur = "Mme Nadia";

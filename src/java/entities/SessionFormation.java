@@ -17,7 +17,14 @@ import javax.persistence.*;
     @NamedQuery(
             name = "SessionFormation.findByFormateur",
             query = "SELECT s FROM SessionFormation s WHERE s.formateur = :nomFormateur"
-    )
+    ),
+    @NamedQuery(
+    name = "SessionFormation.countParticipantsBySession",
+    query = "SELECT s.formation.theme AS sessionName, COUNT(p) AS participantCount " +
+            "FROM SessionFormation s LEFT JOIN s.participations p " +
+            "GROUP BY s.formation.theme " +
+            "ORDER BY participantCount DESC"
+)
 })
 @Table(name = "sessions_formation")
 
