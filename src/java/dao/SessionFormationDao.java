@@ -53,9 +53,9 @@ public class SessionFormationDao extends AbstractDao<SessionFormation> {
             if (session != null) {
                 session.close();
             }
-        
-        return sessions;
-    }
+
+            return sessions;
+        }
     }
 
     public List<SessionFormation> findByFormateur(String nomFormateur) {
@@ -78,22 +78,28 @@ public class SessionFormationDao extends AbstractDao<SessionFormation> {
         }
         return sessions;
     }
+
     public List<Object[]> countParticipantsBySession() {
-    Session session = null;
-    Transaction tx = null;
-    List<Object[]> stats = null;
-    try {
-        session = HibernateUtil.getSessionFactory().openSession();
-        tx = session.beginTransaction();
-        stats = session.getNamedQuery("SessionFormation.countParticipantsBySession").list();
-        tx.commit();
-    } catch (HibernateException e) {
-        if (tx != null) tx.rollback();
-        throw e;
-    } finally {
-        if (session != null) session.close();
+        Session session = null;
+        Transaction tx = null;
+        List<Object[]> stats = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            tx = session.beginTransaction();
+            stats = session.getNamedQuery("SessionFormation.countParticipantsBySession").list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            throw e;
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return stats;
     }
-    return stats;
-}
+    
 
 }

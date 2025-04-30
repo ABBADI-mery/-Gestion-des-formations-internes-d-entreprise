@@ -9,7 +9,6 @@ import entities.Client;
 import entities.Participation;
 import java.util.List;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
@@ -39,7 +38,6 @@ public class ParticipationDao extends AbstractDao<Participation> {
             if (tx != null) {
                 tx.rollback();
             }
-
         } finally {
             if (session != null) {
                 session.close();
@@ -47,24 +45,8 @@ public class ParticipationDao extends AbstractDao<Participation> {
         }
         return participations;
     }
+
     
-public List<Object[]> countClientsByFormation() {
-    Session session = null;
-    try {
-        session = HibernateUtil.getSessionFactory().openSession();
-        
-        // Requête pour compter les clients distincts par formation
-        String hql = "SELECT f.titre, COUNT(DISTINCT p.client) " +
-                     "FROM FormationInterne f " +
-                     "JOIN f.sessions s " +
-                     "JOIN s.participations p " +
-                     "GROUP BY f.titre " +
-                     "ORDER BY COUNT(DISTINCT p.client) DESC";
-        
-        return session.createQuery(hql).list();
-    } finally {
-        if (session != null) session.close();
-    }
-}
+    
 
 }

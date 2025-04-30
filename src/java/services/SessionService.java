@@ -5,7 +5,9 @@ import entities.SessionFormation;
 import java.time.LocalDate;
 
 import java.util.List;
-
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import util.HibernateUtil;
 
 public class SessionService implements IService<SessionFormation> {
 
@@ -52,4 +54,6 @@ public class SessionService implements IService<SessionFormation> {
     public List<SessionFormation> findByFormateur(String nomFormateur) {
         return dao.findByFormateur(nomFormateur);
     }
+   
+
 }

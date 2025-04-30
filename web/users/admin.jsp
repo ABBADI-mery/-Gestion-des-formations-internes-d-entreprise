@@ -363,18 +363,18 @@
                     <span>Formations</span>
                 </a>
 
-                <div class="nav-item">
+                <a href="../sessions/page.jsp" class="nav-item">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Sessions</span>
-                </div>
+                </a>
                 <div class="nav-item">
                     <i class="fas fa-users"></i>
                     <span>Utilisateurs</span>
                 </div>
-                <div class="nav-item">
+                <a href="../statistique/statis.jsp" class="nav-item">
                     <i class="fas fa-chart-line"></i>
                     <span>Statistiques</span>
-                </div>
+                </a>
                 <div class="nav-item">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Déconnexion</span>

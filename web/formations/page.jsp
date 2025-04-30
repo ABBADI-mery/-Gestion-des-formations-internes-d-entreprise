@@ -23,12 +23,7 @@
             --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
         
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+        
         
         body {
             background-color: var(--bg-light);
@@ -249,6 +244,12 @@
             padding: 15px;
             margin-bottom: 20px;
         }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
     </style>
 </head>
 <body>
@@ -279,7 +280,7 @@
                 <i class="fas fa-users"></i>
                 <span>Utilisateurs</span>
             </a>
-            <a href="index.html" class="nav-item">
+            <a href="../statistique/statis.jsp" class="nav-item">
                 <i class="fas fa-chart-line"></i>
                 <span>Statistiques</span>
             </a>

@@ -308,6 +308,12 @@
                 transform: translateY(-2px);
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
+            * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
         </style>
     </head>
     <body>
@@ -338,7 +344,7 @@
                     <i class="fas fa-users"></i>
                     <span>Utilisateurs</span>
                 </a>
-                <a href="../stats/page.jsp" class="nav-item">
+                <a href="../statistique/statis.jsp" class="nav-item">
                     <i class="fas fa-chart-line"></i>
                     <span>Statistiques</span>
                 </a>
@@ -472,14 +478,20 @@
                                 <td><%= s.getId()%></td>
                                 <td><%= s.getFormation().getTitre()%></td>
                                 <td><%= s.getFormation().getTheme()%></td>
-                                <td><%java.time.LocalDate date = s.getDate();String dateStr = date != null ? date.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "N/A";%></td>
+                                <td>
+                                    <%
+                                        java.time.LocalDate date = s.getDate();
+                                        String dateStr = (date != null) ? date.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "N/A";
+                                        out.print(dateStr);
+                                    %>
+                                </td>
                                 <td><%= s.getFormateur()%></td>
                                 <td>
-                                    <a href="SessionFormationController?op=update&id=<%= session.getId()%>" 
+                                    <a href="SessionFormationController?op=update&id=<%= s.getId()%>" 
                                        class="btn btn-warning btn-sm">
                                         <i class="fas fa-edit"></i> Modifier
                                     </a>
-                                    <a href="SessionFormationController?op=delete&id=<%= session.getId()%>" 
+                                    <a href="SessionFormationController?op=delete&id=<%= s.getId()%>" 
                                        class="btn btn-danger btn-sm"
                                        onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette session?')">
                                         <i class="fas fa-trash-alt"></i> Supprimer
@@ -487,8 +499,8 @@
                                 </td>
                             </tr>
                             <%
-                                } // fin de la boucle for
-%>
+                                } 
+                            %>
                         </tbody>
                     </table>
                 </fieldset>
