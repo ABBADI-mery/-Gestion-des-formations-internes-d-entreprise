@@ -334,13 +334,22 @@
                 display: block; 
             }
 
-
             .nav-menu .nav-item {
                 color: var(--text-light); 
             }
         </style>
     </head>
     <body>
+        <!-- Vérification de l'utilisateur -->
+        <%
+            User user = (User) session.getAttribute("user");
+            if (user == null || !(user instanceof Admin)) {
+                response.sendRedirect("../login.jsp");
+                return;
+            }
+            Admin admin = (Admin) user;
+        %>
+
         <!-- Sidebar Navigation -->
         <div class="sidebar">
             <div class="brand">
@@ -356,29 +365,26 @@
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Tableau de bord</span>
                 </div>
-
-
                 <a href="${pageContext.request.contextPath}/formations/page.jsp" class="nav-item">
                     <i class="fas fa-book-open"></i>
                     <span>Formations</span>
                 </a>
-
                 <a href="../sessions/page.jsp" class="nav-item">
                     <i class="fas fa-calendar-alt"></i>
                     <span>Sessions</span>
                 </a>
-                <div class="nav-item">
+                <a href="${pageContext.request.contextPath}/admin/ParticipantsController" class="nav-item">
                     <i class="fas fa-users"></i>
                     <span>Utilisateurs</span>
-                </div>
+                </a>
                 <a href="../statistique/statis.jsp" class="nav-item">
                     <i class="fas fa-chart-line"></i>
                     <span>Statistiques</span>
                 </a>
-                <div class="nav-item">
+                <a href="../logout" class="nav-item">
                     <i class="fas fa-sign-out-alt"></i>
                     <span>Déconnexion</span>
-                </div>
+                </a>
             </div>
         </div>
 
@@ -391,8 +397,11 @@
                 </div>
 
                 <div class="user-profile">
-                    <img src="https://ui-avatars.com/api/?name=Admin+Mery&background=7E57C2&color=fff" alt="Admin">
-                    <span>Admin</span>
+                    <%
+                        String nomAdmin = admin.getNom();
+                    %>
+                    <img src="https://ui-avatars.com/api/?name=<%= nomAdmin %>&background=7E57C2&color=fff" alt="<%= nomAdmin %>">
+                    <span><%= nomAdmin %></span>
                 </div>
             </div>
 
@@ -408,33 +417,87 @@
                         <h3>Commencez rapidement</h3>
                         <p>Prenez en main les fonctionnalités clés pour administrer efficacement votre plateforme éducative.</p>
                         <ul class="quick-actions">
-                            <li><i class="fas fa-plus-circle"></i> <a href="#">Créer une nouvelle formation</a></li>
+                            <li><i class="fas fa-plus-circle"></i> <a href="${pageContext.request.contextPath}/formations/page.jsp">Créer une nouvelle formation</a></li>
                             <li><i class="fas fa-user-plus"></i> <a href="#">Ajouter un utilisateur</a></li>
-                            <li><i class="fas fa-chart-pie"></i> <a href="#">Voir les statistiques</a></li>
+                            <li><i class="fas fa-chart-pie"></i> <a href="../statistique/statis.jsp">Voir les statistiques</a></li>
                         </ul>
                     </div>
 
                     <div class="welcome-stats">
                         <div class="stat-card">
-                            <div class="stat-value">124</div>
+                            <div class="stat-value" id="formations-count">0</div>
                             <div class="stat-label">Formations actives</div>
                             <i class="fas fa-book-open"></i>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value">856</div>
+                            <div class="stat-value" id="users-count">0</div>
                             <div class="stat-label">Utilisateurs</div>
                             <i class="fas fa-users"></i>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value">32</div>
+                            <div class="stat-value" id="sessions-count">0</div>
                             <div class="stat-label">Sessions en cours</div>
                             <i class="fas fa-calendar-check"></i>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
+
+        <!-- Script AJAX pour récupérer les données -->
+       <script>
+    // Fonction pour charger les statistiques dynamiquement
+    function loadStats() {
+        // Requête AJAX pour le nombre de formations
+        fetch('${pageContext.request.contextPath}/FormationStatsController')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('formations-count').textContent = data.formationsCount || 0;
+            })
+            .catch(error => console.error('Erreur formations:', error));
+
+        // Requête AJAX pour le nombre d'utilisateurs
+        fetch('${pageContext.request.contextPath}/UserStatsController')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('users-count').textContent = data.usersCount || 0;
+            })
+            .catch(error => console.error('Erreur utilisateurs:', error));
+
+        // Requête AJAX pour le nombre total de sessions (via SessionStatsController)
+        fetch('${pageContext.request.contextPath}/SessionStatsController?statType=countAll')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('sessions-count').textContent = data.sessionsCount || 0;
+            })
+            .catch(error => console.error('Erreur sessions totales:', error));
+
+        // OPTIONNEL : Statistiques avancées (participants par session)
+        fetch('${pageContext.request.contextPath}/SessionStatsController?statType=participantsBySession')
+            .then(response => response.json())
+            .then(data => {
+                const participantsData = data.participantsBySession;
+                let totalParticipants = 0;
+                
+                // Calcul du total des participants
+                for (const session in participantsData) {
+                    totalParticipants += participantsData[session];
+                }
+                
+                // Affichage dans un élément (ajoutez un élément HTML avec id="total-participants")
+                document.getElementById('total-participants').textContent = totalParticipants;
+                
+                // Vous pouvez aussi utiliser ces données pour un graphique
+                console.log("Données pour graphique:", participantsData);
+            })
+            .catch(error => console.error('Erreur participants:', error));
+    }
+
+    // Chargement au démarrage et toutes les 60 secondes (rafraîchissement automatique)
+    document.addEventListener('DOMContentLoaded', () => {
+        loadStats();
+        setInterval(loadStats, 60000); // Rafraîchit toutes les minutes
+    });
+</script>
     </body>
 </html>

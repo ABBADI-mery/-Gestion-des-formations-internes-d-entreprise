@@ -50,5 +50,21 @@ public class FormationInterneDao extends AbstractDao<FormationInterne> {
 
         return sessions;
     }
+    public long countAll() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        long count = 0;
+        try {
+            tx = session.beginTransaction();
+            count = ((Number) session.createSQLQuery("SELECT COUNT(*) FROM formations_internes").uniqueResult()).longValue();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return count;
+    }
 
 }

@@ -3,129 +3,191 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Création de compte client</title>
+    <title>Création de compte client - meriAcdemi</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-color: #4361ee;
-            --secondary-color: #3f37c9;
-            --accent-color: #4895ef;
-            --light-color: #f8f9fa;
-            --dark-color: #212529;
-            --success-color: #4bb543;
+            --primary-color: #7E57C2;
+            --primary-light: #B39DDB;
+            --primary-dark: #5E35B1;
+            --secondary-color: #FF9800;
+            --light-color: #F5F5F5;
+            --dark-color: #424242;
+            --success-color: #4CAF50;
+            --error-color: #F44336;
         }
-        
+
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            background-color: var(--light-color);
         }
-        
+
+        .register-wrapper {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .register-image {
+            flex: 1;
+            background-image: url('${pageContext.request.contextPath}/imgs/login-image.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: none;
+        }
+
+        .register-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(126, 87, 194, 0.7);
+        }
+
+        .image-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+            padding: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .image-content h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .image-content p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 80%;
+        }
+
         .register-container {
-            max-width: 550px;
-            margin: 80px auto;
-            padding: 2.5rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background-color: white;
         }
-        
-        .register-container:hover {
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+
+        .register-box {
+            max-width: 500px;
+            width: 100%;
+            padding: 2rem;
+            animation: fadeInDown 0.6s;
         }
-        
-        .register-header {
+
+        .brand-header {
             text-align: center;
             margin-bottom: 2rem;
-            position: relative;
         }
-        
-        .register-header h2 {
-            color: var(--primary-color);
+
+        .brand-logo {
+            font-size: 2.5rem;
             font-weight: 700;
+            color: var(--primary-color);
             margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        
-        .register-header::after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 4px;
-            background: var(--accent-color);
-            margin: 0.8rem auto;
-            border-radius: 2px;
+
+        .brand-logo i {
+            margin-right: 10px;
         }
-        
-        .register-header p {
-            color: #666;
-            font-size: 0.95rem;
+
+        .register-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
-        
+
         .form-control {
-            padding: 0.75rem 1rem;
+            padding: 0.75rem 1.25rem;
             border-radius: 8px;
             border: 1px solid #e0e0e0;
             transition: all 0.3s;
+            height: 48px;
+            font-size: 0.95rem;
         }
-        
+
         .form-control:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 0.25rem rgba(72, 149, 239, 0.25);
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 0.25rem rgba(126, 87, 194, 0.15);
         }
-        
+
         .btn-register {
-            background: var(--primary-color);
+            background-color: var(--primary-color);
             border: none;
             padding: 0.75rem;
             border-radius: 8px;
             font-weight: 600;
             letter-spacing: 0.5px;
             transition: all 0.3s;
+            height: 48px;
+            width: 100%;
+            font-size: 1rem;
             margin-top: 1rem;
         }
-        
+
         .btn-register:hover {
-            background: var(--secondary-color);
+            background-color: var(--primary-dark);
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(126, 87, 194, 0.3);
         }
-        
+
         .login-link {
             text-align: center;
             margin-top: 1.5rem;
             padding-top: 1.5rem;
             border-top: 1px solid #eee;
-            color: #666;
+            color: var(--dark-color);
+            font-size: 0.95rem;
         }
-        
+
         .login-link a {
             color: var(--primary-color);
-            font-weight: 600;
+            font-weight: 500;
             text-decoration: none;
             transition: all 0.3s;
         }
-        
+
         .login-link a:hover {
-            color: var(--secondary-color);
+            color: var(--primary-dark);
             text-decoration: underline;
         }
-        
-        .input-group-text {
-            background-color: transparent;
-            border-right: none;
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: var(--dark-color);
+            z-index: 5;
         }
-        
-        .input-with-icon {
-            border-left: none;
+
+        .password-container {
+            position: relative;
         }
-        
-        .brand-logo {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-        
+
         .password-strength {
             height: 5px;
             background: #e0e0e0;
@@ -133,184 +195,163 @@
             margin-top: 5px;
             overflow: hidden;
         }
-        
+
         .password-strength-bar {
             height: 100%;
             width: 0%;
-            background: var(--success-color);
             transition: width 0.3s;
         }
-        
+
         .password-requirements {
             font-size: 0.8rem;
-            color: #666;
-            margin-top: 5px;
+            color: var(--dark-color);
+            margin-top: 10px;
         }
-        
+
         .requirement {
             display: flex;
             align-items: center;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
         }
-        
+
         .requirement i {
             margin-right: 5px;
             font-size: 0.7rem;
+            color: #ccc;
         }
-        
+
+        .requirement.valid i {
+            color: var(--success-color);
+        }
+
         .requirement.valid {
             color: var(--success-color);
         }
-        
-        @media (max-width: 576px) {
+
+        .alert {
+            border-radius: 8px;
+            padding: 1rem;
+            border: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-danger {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--error-color);
+            border-left: 4px solid var(--error-color);
+        }
+
+        @media (min-width: 992px) {
+            .register-image {
+                display: block;
+            }
+            
             .register-container {
-                margin: 40px 20px;
+                flex: 0 0 50%;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .register-box {
                 padding: 1.5rem;
+            }
+            
+            .brand-logo {
+                font-size: 2rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="register-container animate__animated animate__fadeIn">
-            <!-- Brand Logo -->
-            <div class="brand-logo">
-                <i class="fas fa-user-plus" style="font-size: 2.5rem; color: var(--primary-color);"></i>
+    <div class="register-wrapper">
+        <!-- Image Section -->
+        <div class="register-image">
+            <div class="image-content">
+                <h2>Rejoignez MeryAcademi</h2>
+                <p>Créez votre compte pour accéder à toutes nos formations et ressources éducatives.</p>
             </div>
-            
-            <div class="register-header">
-                <h2>Création de compte client</h2>
-                <p>Remplissez le formulaire pour créer votre compte</p>
-            </div>
-            
-            <% if (request.getAttribute("erreur") != null) { %>
-                <div class="alert alert-danger animate__animated animate__shakeX">
-                    <i class="fas fa-exclamation-circle me-2"></i>
-                    <%= request.getAttribute("erreur") %>
+        </div>
+        
+        <!-- Register Form Section -->
+        <div class="register-container">
+            <div class="register-box">
+                <!-- Brand Header -->
+                <div class="brand-header">
+                    <div class="brand-logo">
+                        <i class="fas fa-user-plus"></i>
+                        <span>MeryAcademi</span>
+                    </div>
+                    <p class="brand-subtitle">Votre plateforme d'apprentissage en ligne</p>
                 </div>
-            <% } %>
-            
-            <form action="RegisterController" method="post" id="registerForm">
-                <div class="mb-4">
-                    <label for="nom" class="form-label fw-semibold">Nom complet</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-user"></i></span>
-                        <input type="text" class="form-control input-with-icon" id="nom" name="nom" 
-                               placeholder="Votre nom complet" required>
+
+                <% if (request.getAttribute("erreur") != null) { %>
+                    <div class="alert alert-danger animate__animated animate__shakeX">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <%= request.getAttribute("erreur") %>
                     </div>
-                </div>
-                
-                <div class="mb-4">
-                    <label for="email" class="form-label fw-semibold">Adresse Email</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
-                        <input type="email" class="form-control input-with-icon" id="email" name="email" 
-                               placeholder="votre@email.com" required>
-                    </div>
-                </div>
-                
-                <div class="mb-4">
-                    <label for="motDePasse" class="form-label fw-semibold">Mot de passe</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                        <input type="password" class="form-control input-with-icon" id="motDePasse" 
-                               name="motDePasse" placeholder="••••••••" required
-                               oninput="checkPasswordStrength(this.value)">
-                    </div>
-                    <div class="password-strength">
-                        <div class="password-strength-bar" id="passwordStrengthBar"></div>
-                    </div>
-                    <div class="password-requirements">
-                        <div class="requirement" id="lengthReq">
-                            <i class="fas fa-circle"></i> 8 caractères minimum
-                        </div>
-                        <div class="requirement" id="numberReq">
-                            <i class="fas fa-circle"></i> Au moins 1 chiffre
-                        </div>
-                        <div class="requirement" id="specialReq">
-                            <i class="fas fa-circle"></i> Au moins 1 caractère spécial
+                <% } %>
+
+                <h1 class="register-title">Création de compte</h1>
+
+                <form action="RegisterController" method="post" id="registerForm">
+                    <div class="mb-3">
+                        <label for="nom" class="form-label">Nom complet</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-user"></i></span>
+                            <input type="text" class="form-control" id="nom" name="nom" 
+                                   placeholder="Votre nom complet" required>
                         </div>
                     </div>
-                </div>
-                
-                <div class="mb-4">
-                    <label for="confirmPassword" class="form-label fw-semibold">Confirmer le mot de passe</label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
-                        <input type="password" class="form-control input-with-icon" id="confirmPassword" 
-                               name="confirmPassword" placeholder="••••••••" required
-                               oninput="checkPasswordMatch()">
+                    
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Adresse Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                            <input type="email" class="form-control" id="email" name="email" 
+                                   placeholder="votre@email.com" required>
+                        </div>
                     </div>
-                    <small id="passwordMatchMessage" class="text-danger"></small>
-                </div>
-                
-                <div class="d-grid mb-3">
-                    <button type="submit" class="btn btn-primary btn-register" id="submitBtn">
+                    
+                    <div class="mb-3">
+                        <label for="motDePasse" class="form-label">Mot de passe</label>
+                        <div class="password-container">
+                            <input type="password" class="form-control" id="motDePasse" 
+                                   name="motDePasse" placeholder="••••••••" required
+                                   oninput="checkPasswordStrength(this.value)">
+                            
+                        </div>
+                        
+                        
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirmer le mot de passe</label>
+                        <div class="password-container">
+                            <input type="password" class="form-control" id="confirmPassword" 
+                                   name="confirmPassword" placeholder="••••••••" required
+                                   oninput="checkPasswordMatch()">
+                            
+                        </div>
+                        <small id="passwordMatchMessage" class="text-danger"></small>
+                    </div>
+                    
+                  
+
+                    <button type="submit" class="btn btn-register" id="submitBtn">
                         <i class="fas fa-user-plus me-2"></i>Créer le compte
                     </button>
+                </form>
+
+                <div class="login-link">
+                    <p class="mb-0">Déjà un compte ? <a href="login.jsp">Se connecter</a></p>
                 </div>
-                
-                <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" id="termsCheck" required>
-                    <label class="form-check-label" for="termsCheck">
-                        J'accepte les <a href="#" class="text-decoration-none">conditions d'utilisation</a>
-                    </label>
-                </div>
-            </form>
-            
-            <div class="login-link">
-                <p class="mb-0">Déjà un compte ? <a href="login.jsp">Se connecter</a></p>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Vérification de la force du mot de passe
-        function checkPasswordStrength(password) {
-            let strength = 0;
-            const bar = document.getElementById('passwordStrengthBar');
-            
-            // Vérifier la longueur
-            if (password.length >= 8) {
-                strength += 25;
-                document.getElementById('lengthReq').classList.add('valid');
-            } else {
-                document.getElementById('lengthReq').classList.remove('valid');
-            }
-            
-            // Vérifier les chiffres
-            if (password.match(/([0-9])/)) {
-                strength += 25;
-                document.getElementById('numberReq').classList.add('valid');
-            } else {
-                document.getElementById('numberReq').classList.remove('valid');
-            }
-            
-            // Vérifier les caractères spéciaux
-            if (password.match(/([!,%,&,@,#,$,^,*,?,_,~])/)) {
-                strength += 25;
-                document.getElementById('specialReq').classList.add('valid');
-            } else {
-                document.getElementById('specialReq').classList.remove('valid');
-            }
-            
-            // Vérifier les majuscules
-            if (password.match(/([A-Z])/)) {
-                strength += 25;
-            }
-            
-            bar.style.width = strength + '%';
-            
-            // Changer la couleur en fonction de la force
-            if (strength < 50) {
-                bar.style.background = '#ff5252';
-            } else if (strength < 75) {
-                bar.style.background = '#ffb142';
-            } else {
-                bar.style.background = '#4bb543';
-            }
-        }
+        
         
         // Vérification de la correspondance des mots de passe
         function checkPasswordMatch() {
@@ -322,12 +363,29 @@
                 message.textContent = '';
             } else if (password !== confirmPassword) {
                 message.textContent = 'Les mots de passe ne correspondent pas';
+                message.classList.remove('text-success');
+                message.classList.add('text-danger');
             } else {
                 message.textContent = 'Les mots de passe correspondent';
                 message.classList.remove('text-danger');
                 message.classList.add('text-success');
             }
         }
+        
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const password = document.getElementById('motDePasse');
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="far fa-eye"></i>' : '<i class="far fa-eye-slash"></i>';
+        });
+        
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+            const password = document.getElementById('confirmPassword');
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="far fa-eye"></i>' : '<i class="far fa-eye-slash"></i>';
+        });
         
         // Validation du formulaire avant soumission
         document.getElementById('registerForm').addEventListener('submit', function(e) {
@@ -337,7 +395,16 @@
             if (password !== confirmPassword) {
                 e.preventDefault();
                 alert('Les mots de passe ne correspondent pas');
+                return false;
             }
+            
+            if (!document.getElementById('termsCheck').checked) {
+                e.preventDefault();
+                alert('Vous devez accepter les conditions d\'utilisation');
+                return false;
+            }
+            
+            return true;
         });
     </script>
 </body>

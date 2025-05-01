@@ -54,6 +54,7 @@ public class SessionService implements IService<SessionFormation> {
     public List<SessionFormation> findByFormateur(String nomFormateur) {
         return dao.findByFormateur(nomFormateur);
     }
+    
    
 
 }

@@ -6,7 +6,9 @@
 package services;
 
 import dao.ParticipationDao;
+import entities.Client;
 import entities.Participation;
+import entities.SessionFormation;
 import java.util.List;
 
 /**
@@ -46,5 +48,10 @@ public class ParticipationService implements IService<Participation> {
 
         return dao.findById(id);
     }
+    public List<Participation> findByClient(Client client) {
+        return dao.findByClientId(client);
+    }
+
+    
 
 }

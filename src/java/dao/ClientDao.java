@@ -6,6 +6,11 @@
 package dao;
 
 import entities.Client;
+import entities.SessionFormation;
+import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import util.HibernateUtil;
 
 /**
  *
@@ -20,5 +25,6 @@ public class ClientDao extends AbstractDao<Client> {
     public Client findByEmail(String email) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
 
 }

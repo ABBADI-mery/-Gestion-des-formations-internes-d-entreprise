@@ -7,6 +7,8 @@ package dao;
 
 import entities.Client;
 import entities.Participation;
+import entities.SessionFormation;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -45,6 +47,7 @@ public class ParticipationDao extends AbstractDao<Participation> {
         }
         return participations;
     }
+    
 
     
     

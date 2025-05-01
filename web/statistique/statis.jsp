@@ -291,7 +291,7 @@
                 <i class="fas fa-calendar-alt"></i>
                 <span>Sessions</span>
             </a>
-            <a href="../users/page.jsp" class="nav-item">
+            <a href=#    class="nav-item">
                 <i class="fas fa-users"></i>
                 <span>Utilisateurs</span>
             </a>

@@ -6,6 +6,8 @@
 package dao;
 
 import entities.User;
+import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
@@ -39,5 +41,20 @@ public class UserDao extends AbstractDao<User> {
 
     return user;
 }
-
+    public long countAll() {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        long count = 0;
+        try {
+            tx = session.beginTransaction();
+            count = ((Number) session.createSQLQuery("SELECT COUNT(*) FROM users").uniqueResult()).longValue();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return count;
+    }
 }

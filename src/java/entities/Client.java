@@ -2,14 +2,17 @@ package entities;
 
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQuery(
-    name = "Client.findByEmail",
-    query = "SELECT u FROM User u WHERE u.email = :email"
-)
+@NamedQueries({
+    @NamedQuery(
+        name = "Client.findByEmail",
+        query = "SELECT u FROM User u WHERE u.email = :email"
+    )
+})
 public class Client extends User {
 
     // Utilisation de camelCase pour le nom de la liste

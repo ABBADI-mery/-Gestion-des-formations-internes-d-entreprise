@@ -8,6 +8,7 @@ package services;
 
 import dao.ClientDao;
 import entities.Client;
+import entities.SessionFormation;
 import java.util.List;
 
 /**
@@ -50,5 +51,6 @@ public class ClientService implements IService<Client> {
     public Client findByEmail(String email) {
         return cd.findByEmail(email);
     }
+    
 
 }
