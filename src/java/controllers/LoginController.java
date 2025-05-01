@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import services.UserService;
+import org.mindrot.jbcrypt.BCrypt;
 
 @WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
 public class LoginController extends HttpServlet {
@@ -26,8 +27,8 @@ public class LoginController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String email = request.getParameter("email").trim();
-        String password = request.getParameter("motDePasse");
+        String email = request.getParameter("email") != null ? request.getParameter("email").trim() : "";
+        String password = request.getParameter("motDePasse") != null ? request.getParameter("motDePasse").trim() : "";
 
         if (email.isEmpty() || password.isEmpty()) {
             sendError(request, response, "Email et mot de passe doivent être remplis.");
@@ -38,15 +39,19 @@ public class LoginController extends HttpServlet {
             User u = us.findByEmail(email);
             
             if (u == null) {
+                System.out.println("Échec de la connexion : Email non trouvé - " + email);
                 sendError(request, response, "Email non trouvé");
                 return;
             }
             
-            if (!password.equals(u.getMotDePasse())) {
+            // Vérifier le mot de passe haché avec BCrypt
+            if (!BCrypt.checkpw(password, u.getMotDePasse())) {
+                System.out.println("Échec de la connexion : Mot de passe incorrect pour l'email - " + email);
                 sendError(request, response, "Mot de passe incorrect");
                 return;
             }
 
+            System.out.println("Connexion réussie pour l'utilisateur : ID=" + u.getId() + ", Email=" + u.getEmail());
             HttpSession session = request.getSession();
             session.setAttribute("user", u);
 
@@ -60,7 +65,8 @@ public class LoginController extends HttpServlet {
             }
             
         } catch (Exception e) {
-            sendError(request, response, "Erreur système: " + e.getMessage());
+            System.err.println("Erreur système lors de la connexion : " + e.getMessage());
+            sendError(request, response, "Erreur système : " + e.getMessage());
         }
     }
 

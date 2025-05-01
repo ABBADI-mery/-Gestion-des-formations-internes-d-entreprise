@@ -4,14 +4,13 @@ import dao.UserDao;
 import dao.FormationInterneDao;
 import dao.SessionFormationDao;
 import dao.ParticipationDao;
-
 import entities.Admin;
 import entities.Client;
 import entities.FormationInterne;
 import entities.SessionFormation;
 import entities.Participation;
-
 import util.HibernateUtil;
+import org.mindrot.jbcrypt.BCrypt;
 
 import java.time.LocalDate;
 
@@ -27,79 +26,59 @@ public class Test {
         SessionFormationDao sessionDao = new SessionFormationDao();
         ParticipationDao participationDao = new ParticipationDao();
 
-        // Créer un administrateur
-        Admin admin = new Admin("MrZahid", "admin1@example.com", "admin123");
-        userDao.create(admin);
-
-        // Créer des clients
-        Client client1 = new Client("meryam", "client1@example.com", "client123");
-        Client client2 = new Client("fatima", "client2@example.com", "client456");
-        Client client3 = new Client("hiba", "client3@example.com", "client789");
-
-        userDao.create(client1);
-        userDao.create(client2);
-        userDao.create(client3);
-
-        // Créer une formation
-        FormationInterne formation = new FormationInterne("Spring Boot", "Développement Web", 3);
-        formationDao.create(formation);
-
-        // Créer une session pour cette formation
-        SessionFormation session = new SessionFormation(formation, LocalDate.of(2025, 4, 20), "Mme El Yassir");
-        SessionFormation session2 = new SessionFormation(formation, LocalDate.of(2025, 5, 5), "Mr Amine");
-        SessionFormation session3 = new SessionFormation(formation, LocalDate.of(2025, 6, 10), "Mme Nadia");
-
-        sessionDao.create(session);
-        sessionDao.create(session2);
-        sessionDao.create(session3);
-
-        // Inscrire les clients à la session
-        Participation participation1 = new Participation(session, client1);
-        Participation participation2 = new Participation(session, client2);
-        // Participation à session2
-        Participation participation3 = new Participation(session2, client1);
-        Participation participation4 = new Participation(session2, client3);
-
-        // Participation à session3
-        Participation participation5 = new Participation(session3, client2);
-        Participation participation6 = new Participation(session3, client3);
-
-        participationDao.create(participation1);
-        participationDao.create(participation2);
-        participationDao.create(participation3);
-        participationDao.create(participation4);
-        participationDao.create(participation5);
-        participationDao.create(participation6);
-
-        //  Afficher toutes les participations
-        System.out.println("\n Toutes les participations :");
-        for (Participation p : participationDao.findAll()) {
-            System.out.println(p);
-        }
-
-        //Participations d’un client spécifique (par ID)
-        System.out.println("\n Participations de la cliente meryam :");
-        for (Participation p : participationDao.findAll()) {
-            if (p.getClient().getId() == client1.getId()) {
-                System.out.println(p);
+        
+            // Créer un administrateur
+            String adminSecretAnswer = BCrypt.hashpw("Rex", BCrypt.gensalt());
+            Admin admin = new Admin("MrZahid", "admin1@example.com", BCrypt.hashpw("admin123", BCrypt.gensalt()),
+                    "Quel est le nom de votre premier animal de compagnie ?", adminSecretAnswer);
+            if (userDao.findByEmail("admin1@example.com") == null) {
+                userDao.create(admin);
+                System.out.println("Admin créé : " + admin.getEmail());
+            } else {
+                System.out.println("Admin déjà existant : " + admin.getEmail());
             }
-        }
 
-        //  Sessions d'une formation spécifique (par ID)
-        System.out.println("\n Sessions de la formation Spring Boot :");
-        for (SessionFormation s : sessionDao.findAll()) {
-            if (s.getFormation().getId() == formation.getId()) {
-                System.out.println("Session ID: " + s.getId() + ", Date: " + s.getDate() + ", Formateur: " + s.getFormateur());
+            // Créer des clients
+            String client1SecretAnswer = BCrypt.hashpw("Luna", BCrypt.gensalt());
+            String client2SecretAnswer = BCrypt.hashpw("Milo", BCrypt.gensalt());
+            String client3SecretAnswer = BCrypt.hashpw("Bella", BCrypt.gensalt());
+
+            Client client1 = new Client("meryam", "client1@example.com", BCrypt.hashpw("client123", BCrypt.gensalt()),
+                    "Quel est le nom de votre premier animal de compagnie ?", client1SecretAnswer);
+            Client client2 = new Client("fatima", "client2@example.com", BCrypt.hashpw("client456", BCrypt.gensalt()),
+                    "Quel est le nom de votre ville natale ?", client2SecretAnswer);
+            Client client3 = new Client("hiba", "client3@example.com", BCrypt.hashpw("client789", BCrypt.gensalt()),
+                    "Quel est le nom de votre premier professeur ?", client3SecretAnswer);
+
+            if (userDao.findByEmail("client1@example.com") == null) {
+                userDao.create(client1);
+                System.out.println("Client créé : " + client1.getEmail());
+            } else {
+                System.out.println("Client déjà existant : " + client1.getEmail());
             }
-        }
 
-        //  Sessions après une date spécifique
-        System.out.println("\n Sessions après le 15 avril 2025 :");
-        for (SessionFormation s : sessionDao.findAll()) {
-            if (s.getDate().isAfter(LocalDate.of(2025, 4, 15))) {
-                System.out.println("Session ID: " + s.getId() + ", Date: " + s.getDate());
+            if (userDao.findByEmail("client2@example.com") == null) {
+                userDao.create(client2);
+                System.out.println("Client créé : " + client2.getEmail());
+            } else {
+                System.out.println("Client déjà existant : " + client2.getEmail());
             }
-        }
 
-    }
-}
+            if (userDao.findByEmail("client3@example.com") == null) {
+                userDao.create(client3);
+                System.out.println("Client créé : " + client3.getEmail());
+            } else {
+                System.out.println("Client déjà existant : " + client3.getEmail());
+            }
+
+            // Créer une formation
+            FormationInterne formation = new FormationInterne("Spring Boot", "Développement Web", 3);
+            
+
+            // Créer des sessions pour cette formation
+            SessionFormation session1 = new SessionFormation(formation, LocalDate.of(2025, 4, 20), "Mme El Yassir");
+            SessionFormation session2 = new SessionFormation(formation, LocalDate.of(2025, 5, 5), "Mr Amine");
+            SessionFormation session3 = new SessionFormation(formation, LocalDate.of(2025, 6, 10), "Mme Nadia");
+
+            
+}}

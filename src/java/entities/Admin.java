@@ -6,20 +6,23 @@
 package entities;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  *
  * @author pc
  */
 @Entity
-
+@Table(name = "admin")
 public class Admin extends User {
 
     public Admin() {
     }
 
-    public Admin(String nom, String email, String motDePasse) {
-        super(nom, email, motDePasse);
+    public Admin(String nom, String email, String motDePasse, String secretQuestion, String secretAnswer) {
+        super(nom, email, motDePasse, secretQuestion, secretAnswer);
     }
+
+    
 
 }

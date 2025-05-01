@@ -5,8 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "client")
 @NamedQueries({
     @NamedQuery(
         name = "Client.findByEmail",
@@ -24,9 +26,11 @@ public class Client extends User {
     }
 
     // Constructeur avec paramètres pour initialiser nom, email, motDePasse, et participation
-    public Client(String nom, String email, String motDePasse) {
-        super(nom, email, motDePasse);
+
+    public Client(String nom, String email, String motDePasse, String secretQuestion, String secretAnswer) {
+        super(nom, email, motDePasse, secretQuestion, secretAnswer);
     }
+   
 
     // Getter pour les participations
     public List<Participation> getParticipations() {

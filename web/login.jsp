@@ -5,7 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Connexion - meriAcdemi</title>
+        <title>Connexion - MeryAcademi</title>
         <!-- Favicon -->
         <link rel="icon" href="assets/img/favicon.ico">
         <!-- Font Awesome -->
@@ -271,10 +271,17 @@
                         </div>
                     </div>
 
-                    <% if (request.getAttribute("erreur") != null) {%>
+                    <% if (request.getAttribute("erreur") != null) { %>
                     <div class="alert alert-danger animate__animated animate__shakeX">
                         <i class="fas fa-exclamation-circle me-2"></i>
-                        <%= request.getAttribute("erreur")%>
+                        <%= request.getAttribute("erreur") %>
+                    </div>
+                    <% } %>
+
+                    <% if (request.getAttribute("success") != null) { %>
+                    <div class="alert alert-success animate__animated animate__fadeIn">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <%= request.getAttribute("success") %>
                     </div>
                     <% } %>
 
@@ -283,36 +290,76 @@
                         <i class="fas fa-check-circle me-2"></i>
                         Vous avez été déconnecté avec succès.
                     </div>
-                    <% }%>
+                    <% } %>
 
-                    <h1 class="login-title">Login</h1>
+                    <h1 class="login-title">Connexion</h1>
 
                     <form action="LoginController" method="post">
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
+                            <label for="email" class="form-label">Adresse Email</label>
                             <input type="email" class="form-control" id="email" name="email" 
-                                   placeholder="you@example.com" required>
+                                   placeholder="vous@exemple.com" required>
                         </div>
 
                         <div class="mb-3">
-                            <label for="motDePasse" class="form-label">Password</label>
+                            <label for="motDePasse" class="form-label">Mot de passe</label>
                             <div class="password-container">
                                 <input type="password" class="form-control" id="motDePasse" 
-                                       name="motDePasse" placeholder="Enter 8 characters or more" required>
-                               
+                                       name="motDePasse" placeholder="Entrez 8 caractères ou plus" required>
+                                <span class="password-toggle" id="togglePassword">
+                                    <i class="far fa-eye"></i>
+                                </span>
                             </div>
                             <div class="forgot-password">
-                                <a href="#">Forgot Password?</a>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">Mot de passe oublié ?</a>
                             </div>
                         </div>
 
                         <button type="submit" class="btn btn-login">
-                            Login
+                            Se connecter
                         </button>
                     </form>
 
                     <div class="form-footer">
-                        Doesn't have an account yet? <a href="register.jsp">Sign Up</a>
+                        Vous n'avez pas encore de compte ? <a href="register.jsp">S'inscrire</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal for Forgot Password -->
+        <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="forgotPasswordModalLabel">Réinitialiser le mot de passe</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="forgotPasswordForm" action="ForgotPasswordController" method="post">
+                            <div id="emailStep" class="step">
+                                <div class="mb-3">
+                                    <label for="resetEmail" class="form-label">Entrez votre adresse email</label>
+                                    <input type="email" class="form-control" id="resetEmail" name="email" 
+                                           placeholder="vous@exemple.com" required>
+                                </div>
+                                <button type="button" class="btn btn-login" onclick="submitEmail()">Suivant</button>
+                            </div>
+                            <div id="questionStep" class="step" style="display: none;">
+                                <div class="mb-3">
+                                    <label for="secretQuestion" class="form-label">Question secrète</label>
+                                    <input type="text" class="form-control" id="secretQuestion" name="secretQuestion" readonly>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="secretAnswer" class="form-label">Votre réponse</label>
+                                    <input type="text" class="form-control" id="secretAnswer" name="secretAnswer" 
+                                           placeholder="Entrez votre réponse" required>
+                                    <small class="form-text text-muted">La réponse n'est pas sensible à la casse et les espaces sont ignorés.</small>
+                                </div>
+                                <input type="hidden" name="email" id="hiddenEmail">
+                                <button type="submit" class="btn btn-login">Envoyer le nouveau mot de passe</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -321,11 +368,48 @@
         <!-- Bootstrap Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script>
+            function submitEmail() {
+                const email = document.getElementById('resetEmail').value;
+                if (!email) {
+                    alert('Veuillez entrer un email.');
+                    return;
+                }
+
+                fetch('ForgotPasswordController', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'email=' + encodeURIComponent(email) + '&getQuestion=true'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        alert(data.error);
+                    } else if (data.secretQuestion) {
+                        document.getElementById('emailStep').style.display = 'none';
+                        document.getElementById('questionStep').style.display = 'block';
+                        document.getElementById('secretQuestion').value = data.secretQuestion;
+                        document.getElementById('hiddenEmail').value = email;
+
+                        // Normaliser la réponse secrète avant soumission
+                        document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
+                            const secretAnswer = document.getElementById('secretAnswer');
+                            secretAnswer.value = secretAnswer.value.trim(); // Supprimer les espaces
+                        });
+                    } else {
+                        alert('Aucune question secrète configurée pour cet utilisateur.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    alert('Une erreur est survenue. Veuillez réessayer.');
+                });
+            }
+
             // Toggle password visibility
-            const togglePassword = document.querySelector('#togglePassword');
-            const password = document.querySelector('#motDePasse');
-            
-            togglePassword.addEventListener('click', function () {
+            document.getElementById('togglePassword').addEventListener('click', function() {
+                const password = document.getElementById('motDePasse');
                 const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
                 password.setAttribute('type', type);
                 this.innerHTML = type === 'password' ? '<i class="far fa-eye"></i>' : '<i class="far fa-eye-slash"></i>';
