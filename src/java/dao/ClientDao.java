@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dao;
 
 import entities.Client;
@@ -15,10 +10,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import util.HibernateUtil;
 
-/**
- *
- * @author pc
- */
 public class ClientDao extends AbstractDao<Client> {
 
     public ClientDao() {
@@ -26,20 +17,16 @@ public class ClientDao extends AbstractDao<Client> {
     }
 
     public Client findByEmail(String email) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public List<Client> findAllWithSessions() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
-        List<Client> clients = null;
+        Client client = null;
         try {
             tx = session.beginTransaction();
-            Query query = session.createQuery(
-                    "FROM Client c LEFT JOIN FETCH c.participations p LEFT JOIN FETCH p.sessionFormation");
-            clients = query.list(); 
+            Query query = session.createQuery("FROM Client c WHERE c.email = :email");
+            query.setParameter("email", email);
+            client = (Client) query.uniqueResult();
             tx.commit();
-        } catch (Exception e) {
+        } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
             }
@@ -47,7 +34,29 @@ public class ClientDao extends AbstractDao<Client> {
         } finally {
             session.close();
         }
-        return clients;
+        return client;
     }
 
+    public List<Client> findAllWithSessions() {
+    Session session = HibernateUtil.getSessionFactory().openSession();
+    Transaction tx = null;
+    List<Client> clients = null;
+    try {
+        tx = session.beginTransaction();
+        Query query = session.createQuery(
+                "FROM Client c LEFT JOIN FETCH c.participations p LEFT JOIN FETCH p.sessionFormation sf LEFT JOIN FETCH sf.formation");
+        System.out.println("Executing query: " + query.getQueryString());
+        clients = query.list();
+        System.out.println("Found " + (clients != null ? clients.size() : 0) + " clients");
+        tx.commit();
+    } catch (HibernateException e) {
+        if (tx != null) {
+            tx.rollback();
+        }
+        e.printStackTrace();
+    } finally {
+        session.close();
+    }
+    return clients != null ? clients : Collections.emptyList();
+}
 }

@@ -38,7 +38,7 @@ public class ClientController extends HttpServlet {
                 Client client = clientService.findById(id);
                 if (client != null) {
                     clientService.delete(client);
-                    response.sendRedirect("users/participants.jsp?success=deleted");
+                    response.sendRedirect(request.getContextPath() + "/users/UsersController?success=deleted");
                 } else {
                     response.sendRedirect("users/participants.jsp?error=client_not_found");
                 }
@@ -61,18 +61,18 @@ public class ClientController extends HttpServlet {
                     client.setNom(nom);
                     client.setEmail(email);
                     clientService.update(client);
-                    response.sendRedirect("users/participants.jsp?success=updated");
+                    response.sendRedirect(request.getContextPath() + "/users/UsersController?success=updated");
                 } else {
-                    response.sendRedirect("users/participants.jsp?error=client_not_found");
+                    response.sendRedirect(request.getContextPath() + "/users/UsersController?error=client_not_found");
                 }
             } else {
-                response.sendRedirect("users/participants.jsp?error=invalid_operation");
+                response.sendRedirect(request.getContextPath() + "/users/UsersController?error=invalid_operation");
             }
         } catch (NumberFormatException e) {
-            response.sendRedirect("users/participants.jsp?error=invalid_id");
+            response.sendRedirect(request.getContextPath() + "/users/UsersController?error=invalid_id");
         } catch (Exception e) {
             e.printStackTrace();
-            response.sendRedirect("users/participants.jsp?error=server_error");
+            response.sendRedirect(request.getContextPath() + "/users/UsersController?error=server_error");
         }
     }
 

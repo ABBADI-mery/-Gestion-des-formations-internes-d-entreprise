@@ -102,23 +102,24 @@ public class SessionFormationDao extends AbstractDao<SessionFormation> {
     }
 
     public long countAll() {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
-        long count = 0;
-        try {
-            tx = session.beginTransaction();
-            count = ((Number) session.createSQLQuery("SELECT COUNT(*) FROM sessions_formation").uniqueResult()).longValue();
-            System.out.println("Nombre total de sessions : " + count);
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            e.printStackTrace();
-        } finally {
-            session.close();
+    Session session = HibernateUtil.getSessionFactory().openSession();
+    Transaction tx = null;
+    long count = 0;
+    try {
+        tx = session.beginTransaction();
+        count = ((Number) session.createSQLQuery("SELECT COUNT(*) FROM sessions_formation").uniqueResult()).longValue();
+        System.out.println("Nombre de formations_internes (SessionFormationDao) : " + count);
+        tx.commit();
+    } catch (Exception e) {
+        System.err.println("Erreur dans SessionFormationDao.countAll : " + e.getMessage());
+        e.printStackTrace();
+        if (tx != null) {
+            tx.rollback();
         }
-        return count;
+    } finally {
+        session.close();
     }
+    return count;
+}
 
 }

@@ -276,7 +276,7 @@
                     <i class="fas fa-calendar-alt"></i>
                     <span>Sessions</span>
                 </a>
-                <a href="../users/participants.jsp" class="nav-item">
+                <a href="${pageContext.request.contextPath}/users/UsersController" class="nav-item ">
                     <i class="fas fa-users"></i>
                     <span>Utilisateurs</span>
                 </a>

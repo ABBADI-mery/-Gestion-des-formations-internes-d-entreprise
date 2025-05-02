@@ -288,6 +288,7 @@
                 return;
             }
             Admin admin = (Admin) user;
+            String nomAdmin = (admin != null && admin.getNom() != null) ? admin.getNom() : "Admin";
         %>
         <!-- Sidebar Navigation -->
         <div class="sidebar">
@@ -312,7 +313,7 @@
                     <i class="fas fa-calendar-alt"></i>
                     <span>Sessions</span>
                 </a>
-                <a href="../users/participants.jsp" class="nav-item active">
+                <a href="${pageContext.request.contextPath}/users/UsersController" class="nav-item active">
                     <i class="fas fa-users"></i>
                     <span>Utilisateurs</span>
                 </a>
@@ -336,11 +337,8 @@
                 </div>
 
                 <div class="user-profile">
-                    <%
-                        String nomAdmin = admin.getNom();
-                    %>
-                    <img src="https://ui-avatars.com/api/?name=<%= nomAdmin%>&background=7E57C2&color=fff" alt="<%= nomAdmin%>">
-                    <span><%= nomAdmin%></span>
+                    <img src="https://ui-avatars.com/api/?name=<%= java.net.URLEncoder.encode(nomAdmin, "UTF-8") %>&background=7E57C2&color=fff" alt="<%= nomAdmin %>">
+                    <span><%= nomAdmin %></span>
                 </div>
             </div>
 
@@ -365,7 +363,7 @@
                     ID client invalide.
                 </div>
             </c:if>
-            <c:if test="${param.error == 'server_error'}">
+            <c:if test="${requestScope.error == 'server_error'}">
                 <div class="alert alert-danger">
                     Une erreur s'est produite. Veuillez réessayer.
                 </div>
@@ -391,32 +389,31 @@
                     </thead>
                     <tbody>
                         <%
-                            ClientService cs = new ClientService();
-                            List<Client> clients = (request.getAttribute("clients") != null)
-                                    ? (List<Client>) request.getAttribute("clients")
-                                    : cs.findAllWithSessions();
-
-                            for (Client client : clients) {
-                                boolean hasParticipations = client.getParticipations() != null && !client.getParticipations().isEmpty();
-
-                                if (hasParticipations) {
-                                    for (Participation participation : client.getParticipations()) {
-                                        SessionFormation s = participation.getSessionFormation();
-                                        String formationTitre = (s != null && s.getFormation() != null)
-                                                ? s.getFormation().getTitre() : "N/A";
+                            List<Client> clients = (List<Client>) request.getAttribute("clients");
+                            if (clients == null) {
+                                out.println("<tr><td colspan='6'>Aucun client trouvé (clients is null).</td></tr>");
+                            } else if (clients.isEmpty()) {
+                                out.println("<tr><td colspan='6'>Aucun client trouvé (clients is empty).</td></tr>");
+                            } else {
+                                for (Client client : clients) {
+                                    boolean hasParticipations = client != null && client.getParticipations() != null && !client.getParticipations().isEmpty();
+                                    if (hasParticipations) {
+                                        for (Participation participation : client.getParticipations()) {
+                                            if (participation != null) {
+                                                SessionFormation s = participation.getSessionFormation();
+                                                String formationTitre = (s != null && s.getFormation() != null)
+                                                        ? s.getFormation().getTitre() : "N/A";
                         %>
                         <tr>
-                            <td><%= client.getId()%></td>
-                            <td><%= client.getNom()%></td>
-                            <td><%= client.getEmail()%></td>
-                            <td><%= formationTitre%></td>
+                            <td><%= client.getId() %></td>
+                            <td><%= client.getNom() != null ? client.getNom() : "N/A" %></td>
+                            <td><%= client.getEmail() != null ? client.getEmail() : "N/A" %></td>
+                            <td><%= formationTitre %></td>
                             <td>
                                 <%
-                                    if (s != null) {
+                                    if (s != null && s.getDate() != null) {
                                         java.time.LocalDate date = s.getDate();
-                                        String dateStr = (date != null)
-                                                ? date.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-                                                : "N/A";
+                                        String dateStr = date.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"));
                                         out.print(dateStr);
                                     } else {
                                         out.print("N/A");
@@ -426,10 +423,10 @@
                             <td>
                                 <button type="button" class="btn btn-warning btn-sm" 
                                         data-bs-toggle="modal" data-bs-target="#editClientModal"
-                                        onclick="populateModal(<%= client.getId()%>, '<%= client.getNom()%>', '<%= client.getEmail()%>')">
+                                        onclick="populateModal(<%= client.getId() %>, '<%= client.getNom() != null ? client.getNom().replace("'", "\\'") : "" %>', '<%= client.getEmail() != null ? client.getEmail().replace("'", "\\'") : "" %>')">
                                     <i class="fas fa-edit"></i> Modifier
                                 </button>
-                                <a href="${pageContext.request.contextPath}/ClientController?op=delete&id=<%= client.getId()%>" 
+                                <a href="${pageContext.request.contextPath}/ClientController?op=delete&id=<%= client.getId() %>" 
                                    class="btn btn-danger btn-sm"
                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?')">
                                     <i class="fas fa-trash-alt"></i> Supprimer
@@ -437,21 +434,22 @@
                             </td>
                         </tr>
                         <%
-                            }
-                        } else {
+                                            }
+                                        }
+                                    } else {
                         %>
                         <tr>
-                            <td><%= client.getId()%></td>
-                            <td><%= client.getNom()%></td>
-                            <td><%= client.getEmail()%></td>
+                            <td><%= client.getId() %></td>
+                            <td><%= client.getNom() != null ? client.getNom() : "N/A" %></td>
+                            <td><%= client.getEmail() != null ? client.getEmail() : "N/A" %></td>
                             <td colspan="2">Aucune session associée</td>
                             <td>
                                 <button type="button" class="btn btn-warning btn-sm" 
                                         data-bs-toggle="modal" data-bs-target="#editClientModal"
-                                        onclick="populateModal(<%= client.getId()%>, '<%= client.getNom()%>', '<%= client.getEmail()%>')">
+                                        onclick="populateModal(<%= client.getId() %>, '<%= client.getNom() != null ? client.getNom().replace("'", "\\'") : "" %>', '<%= client.getEmail() != null ? client.getEmail().replace("'", "\\'") : "" %>')">
                                     <i class="fas fa-edit"></i> Modifier
                                 </button>
-                                <a href="${pageContext.request.contextPath}/ClientController?op=delete&id=<%= client.getId()%>" 
+                                <a href="${pageContext.request.contextPath}/ClientController?op=delete&id=<%= client.getId() %>" 
                                    class="btn btn-danger btn-sm"
                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?')">
                                     <i class="fas fa-trash-alt"></i> Supprimer
@@ -459,6 +457,7 @@
                             </td>
                         </tr>
                         <%
+                                    }
                                 }
                             }
                         %>
@@ -499,11 +498,11 @@
             <!-- Bootstrap JS Bundle with Popper -->
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
             <script>
-                                       function populateModal(id, nom, email) {
-                                           document.getElementById('modalClientId').value = id;
-                                           document.getElementById('modalClientNom').value = nom;
-                                           document.getElementById('modalClientEmail').value = email;
-                                       }
+                function populateModal(id, nom, email) {
+                    document.getElementById('modalClientId').value = id;
+                    document.getElementById('modalClientNom').value = nom;
+                    document.getElementById('modalClientEmail').value = email;
+                }
             </script>
         </div>
     </body>
