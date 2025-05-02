@@ -100,7 +100,7 @@ public class SessionFormationDao extends AbstractDao<SessionFormation> {
         }
         return stats;
     }
-    // Nouvelle méthode pour compter toutes les sessions
+
     public long countAll() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
@@ -108,16 +108,17 @@ public class SessionFormationDao extends AbstractDao<SessionFormation> {
         try {
             tx = session.beginTransaction();
             count = ((Number) session.createSQLQuery("SELECT COUNT(*) FROM sessions_formation").uniqueResult()).longValue();
-            System.out.println("Nombre total de sessions : " + count); // Log pour déboguer
+            System.out.println("Nombre total de sessions : " + count);
             tx.commit();
         } catch (Exception e) {
-            if (tx != null) tx.rollback();
+            if (tx != null) {
+                tx.rollback();
+            }
             e.printStackTrace();
         } finally {
             session.close();
         }
         return count;
     }
-    
 
 }

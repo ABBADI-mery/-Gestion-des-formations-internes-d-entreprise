@@ -309,11 +309,11 @@
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             }
             * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Poppins', sans-serif;
+            }
         </style>
     </head>
     <body>
@@ -340,7 +340,7 @@
                     <i class="fas fa-calendar-alt"></i>
                     <span>Sessions</span>
                 </a>
-                <a href="../users/page.jsp" class="nav-item">
+                <a href="../users/participants.jsp" class="nav-item">
                     <i class="fas fa-users"></i>
                     <span>Utilisateurs</span>
                 </a>
@@ -499,7 +499,7 @@
                                 </td>
                             </tr>
                             <%
-                                } 
+                                }
                             %>
                         </tbody>
                     </table>

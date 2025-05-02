@@ -52,10 +52,10 @@ public class FormationController extends HttpServlet {
         } else if (op.equals("update")) {
             String id = request.getParameter("id");
             FormationInterne f = fis.findById(Integer.parseInt(id));
-            response.sendRedirect("formations/page.jsp?id=" + f.getId() +
-                    "&titre=" + f.getTitre() +
-                    "&theme=" + f.getTheme() +
-                    "&duree=" + f.getDuree());
+            response.sendRedirect("formations/page.jsp?id=" + f.getId()
+                    + "&titre=" + f.getTitre()
+                    + "&theme=" + f.getTheme()
+                    + "&duree=" + f.getDuree());
         }
     }
 

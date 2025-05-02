@@ -19,28 +19,33 @@ public class UserDao extends AbstractDao<User> {
     }
 
     public User findByEmail(String email) {
-    Session session = null;
-    Transaction tx = null;
-    User user = null;
+        Session session = null;
+        Transaction tx = null;
+        User user = null;
 
-    try {
-        session = HibernateUtil.getSessionFactory().openSession();
-        tx = session.beginTransaction();
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            tx = session.beginTransaction();
 
-        user = (User) session
-                .getNamedQuery("User.findByEmail")
-                .setParameter("email", email)
-                .uniqueResult();
+            user = (User) session
+                    .getNamedQuery("User.findByEmail")
+                    .setParameter("email", email)
+                    .uniqueResult();
 
-        tx.commit();
-    } catch (Exception e) {
-        if (tx != null) tx.rollback();
-    } finally {
-        if (session != null) session.close();
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
+        return user;
     }
 
-    return user;
-}
     public long countAll() {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
@@ -50,7 +55,9 @@ public class UserDao extends AbstractDao<User> {
             count = ((Number) session.createSQLQuery("SELECT COUNT(*) FROM users").uniqueResult()).longValue();
             tx.commit();
         } catch (Exception e) {
-            if (tx != null) tx.rollback();
+            if (tx != null) {
+                tx.rollback();
+            }
             e.printStackTrace();
         } finally {
             session.close();

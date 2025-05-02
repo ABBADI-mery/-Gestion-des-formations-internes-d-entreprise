@@ -39,12 +39,18 @@ public class ParticipationId implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         ParticipationId that = (ParticipationId) o;
 
-        if (sessionFormationId != that.sessionFormationId) return false;
+        if (sessionFormationId != that.sessionFormationId) {
+            return false;
+        }
         return clientId == that.clientId;
     }
 

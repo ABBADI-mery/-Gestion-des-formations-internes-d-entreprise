@@ -11,8 +11,8 @@ import javax.persistence.Table;
 @Table(name = "client")
 @NamedQueries({
     @NamedQuery(
-        name = "Client.findByEmail",
-        query = "SELECT u FROM User u WHERE u.email = :email"
+            name = "Client.findByEmail",
+            query = "SELECT u FROM User u WHERE u.email = :email"
     )
 })
 public class Client extends User {
@@ -26,11 +26,9 @@ public class Client extends User {
     }
 
     // Constructeur avec paramètres pour initialiser nom, email, motDePasse, et participation
-
     public Client(String nom, String email, String motDePasse, String secretQuestion, String secretAnswer) {
         super(nom, email, motDePasse, secretQuestion, secretAnswer);
     }
-   
 
     // Getter pour les participations
     public List<Participation> getParticipations() {

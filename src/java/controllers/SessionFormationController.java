@@ -64,7 +64,7 @@ public class SessionFormationController extends HttpServlet {
             } else if (op.equals("search")) {
                 String searchType = request.getParameter("searchType");
                 String searchValue = request.getParameter("searchValue");
-                
+
                 List<SessionFormation> sessions = null;
                 if (searchType.equals("theme")) {
                     sessions = sessionService.findByTheme(searchValue);
@@ -73,7 +73,7 @@ public class SessionFormationController extends HttpServlet {
                 } else if (searchType.equals("formateur")) {
                     sessions = sessionService.findByFormateur(searchValue);
                 }
-                
+
                 request.setAttribute("sessions", sessions);
                 request.setAttribute("formations", formationService.findAll());
                 request.getRequestDispatcher("page.jsp").forward(request, response);

@@ -23,6 +23,4 @@ public class Admin extends User {
         super(nom, email, motDePasse, secretQuestion, secretAnswer);
     }
 
-    
-
 }

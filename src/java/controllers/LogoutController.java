@@ -13,13 +13,13 @@ public class LogoutController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         // Invalider la session existante
         HttpSession session = request.getSession(false);
         if (session != null) {
             session.invalidate();
         }
-        
+
         // Rediriger vers la page de login avec un paramètre de succès
         response.sendRedirect(request.getContextPath() + "/login.jsp?logout=success");
     }

@@ -1,20 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package services;
-
 
 import dao.ClientDao;
 import entities.Client;
-import entities.SessionFormation;
 import java.util.List;
 
-/**
- *
- * @author pc
- */
 public class ClientService implements IService<Client> {
 
     private final ClientDao cd;
@@ -43,6 +32,10 @@ public class ClientService implements IService<Client> {
         return cd.findAll();
     }
 
+    public List<Client> findAllWithSessions() {
+        return cd.findAllWithSessions();
+    }
+
     @Override
     public Client findById(int id) {
         return cd.findById(id);
@@ -51,6 +44,4 @@ public class ClientService implements IService<Client> {
     public Client findByEmail(String email) {
         return cd.findByEmail(email);
     }
-    
-
 }

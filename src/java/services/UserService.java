@@ -18,8 +18,7 @@ public class UserService implements IService<User> {
 
     @Override
     public boolean create(User o) {
-        // Ne pas hacher le mot de passe ici, car il est déjà haché dans RegisterController
-        // Ne pas hacher la réponse secrète ici, car elle est déjà hachée dans RegisterController
+
         boolean created = ud.create(o);
         if (created) {
             System.out.println("Utilisateur créé avec succès : ID=" + o.getId() + ", Email=" + o.getEmail());
@@ -65,10 +64,14 @@ public class UserService implements IService<User> {
 
             tx.commit();
         } catch (Exception e) {
-            if (tx != null) tx.rollback();
+            if (tx != null) {
+                tx.rollback();
+            }
             System.err.println("Erreur lors de la recherche par email : " + e.getMessage());
         } finally {
-            if (session != null) session.close();
+            if (session != null) {
+                session.close();
+            }
         }
 
         return user;
@@ -101,12 +104,16 @@ public class UserService implements IService<User> {
             tx.commit();
             System.out.println("Mot de passe mis à jour avec succès pour l'utilisateur ID=" + user.getId() + ", Email=" + user.getEmail());
         } catch (Exception e) {
-            if (tx != null) tx.rollback();
+            if (tx != null) {
+                tx.rollback();
+            }
             System.err.println("Erreur lors de la mise à jour du mot de passe : " + e.getMessage());
             e.printStackTrace();
             throw new RuntimeException("Échec de la mise à jour du mot de passe : " + e.getMessage());
         } finally {
-            if (session != null) session.close();
+            if (session != null) {
+                session.close();
+            }
         }
     }
 }

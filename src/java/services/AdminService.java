@@ -10,5 +10,5 @@ package services;
  * @author pc
  */
 public class AdminService {
-    
+
 }

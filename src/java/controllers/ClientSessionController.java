@@ -88,8 +88,8 @@ public class ClientSessionController extends HttpServlet {
                         request.setAttribute("error", "Information de session invalide.");
                     }
                 } else {
-                    String errorMsg = (sessionId == null ? "ID de session manquant. " : "") +
-                                     (client == null ? "Veuillez vous connecter en tant que client." : "");
+                    String errorMsg = (sessionId == null ? "ID de session manquant. " : "")
+                            + (client == null ? "Veuillez vous connecter en tant que client." : "");
                     request.setAttribute("error", errorMsg);
                 }
 

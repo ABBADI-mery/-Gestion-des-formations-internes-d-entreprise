@@ -37,13 +37,13 @@ public class LoginController extends HttpServlet {
 
         try {
             User u = us.findByEmail(email);
-            
+
             if (u == null) {
                 System.out.println("Échec de la connexion : Email non trouvé - " + email);
                 sendError(request, response, "Email non trouvé");
                 return;
             }
-            
+
             // Vérifier le mot de passe haché avec BCrypt
             if (!BCrypt.checkpw(password, u.getMotDePasse())) {
                 System.out.println("Échec de la connexion : Mot de passe incorrect pour l'email - " + email);
@@ -63,14 +63,14 @@ public class LoginController extends HttpServlet {
             } else {
                 sendError(request, response, "Type d'utilisateur inconnu");
             }
-            
+
         } catch (Exception e) {
             System.err.println("Erreur système lors de la connexion : " + e.getMessage());
             sendError(request, response, "Erreur système : " + e.getMessage());
         }
     }
 
-    private void sendError(HttpServletRequest request, HttpServletResponse response, String message) 
+    private void sendError(HttpServletRequest request, HttpServletResponse response, String message)
             throws ServletException, IOException {
         request.setAttribute("erreur", message);
         request.getRequestDispatcher("login.jsp").forward(request, response);

@@ -12,6 +12,7 @@ import org.mindrot.jbcrypt.BCrypt;
 
 @WebServlet("/RegisterController")
 public class RegisterController extends HttpServlet {
+
     private UserService userService = new UserService();
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -26,9 +27,9 @@ public class RegisterController extends HttpServlet {
         String secretAnswer = request.getParameter("secretAnswer");
 
         // Validation des champs
-        if (nom == null || nom.isEmpty() || email == null || email.isEmpty() ||
-            password == null || password.isEmpty() || secretQuestion == null ||
-            secretQuestion.isEmpty() || secretAnswer == null || secretAnswer.isEmpty()) {
+        if (nom == null || nom.isEmpty() || email == null || email.isEmpty()
+                || password == null || password.isEmpty() || secretQuestion == null
+                || secretQuestion.isEmpty() || secretAnswer == null || secretAnswer.isEmpty()) {
 
             sendError(request, response, "Tous les champs sont obligatoires");
             return;

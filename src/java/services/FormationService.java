@@ -13,15 +13,13 @@ import java.util.List;
  *
  * @author pc
  */
-public class FormationService implements IService<FormationInterne>{
+public class FormationService implements IService<FormationInterne> {
 
     private final FormationInterneDao dao;
 
     public FormationService() {
         this.dao = new FormationInterneDao();
     }
-
-   
 
     @Override
     public boolean create(FormationInterne o) {

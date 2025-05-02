@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 @Entity
 @NamedQueries({
     @NamedQuery(
-        name = "User.findByEmail",
-        query = "SELECT u FROM User u WHERE u.email = :email"
+            name = "User.findByEmail",
+            query = "SELECT u FROM User u WHERE u.email = :email"
     )
 })
 @Table(name = "users")

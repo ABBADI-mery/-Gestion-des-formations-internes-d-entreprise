@@ -47,9 +47,5 @@ public class ParticipationDao extends AbstractDao<Participation> {
         }
         return participations;
     }
-    
-
-    
-    
 
 }

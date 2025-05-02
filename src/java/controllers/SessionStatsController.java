@@ -19,8 +19,8 @@ public class SessionStatsController extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         
-        // Récupérer le paramètre 'statType' pour déterminer quelle statistique calculer
         String statType = request.getParameter("statType");
         Map<String, Object> result = new HashMap<>();
 
@@ -30,7 +30,7 @@ public class SessionStatsController extends HttpServlet {
                 break;
             case "participantsBySession":
                 List<Object[]> stats = dao.countParticipantsBySession();
-                // Convertir la liste de tableaux en une structure JSON plus lisible
+                
                 Map<String, Integer> participantsMap = new HashMap<>();
                 for (Object[] stat : stats) {
                     participantsMap.put(stat[0].toString(), Integer.parseInt(stat[1].toString()));

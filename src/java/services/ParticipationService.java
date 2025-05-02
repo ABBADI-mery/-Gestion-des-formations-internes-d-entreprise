@@ -48,10 +48,9 @@ public class ParticipationService implements IService<Participation> {
 
         return dao.findById(id);
     }
+
     public List<Participation> findByClient(Client client) {
         return dao.findByClientId(client);
     }
-
-    
 
 }
