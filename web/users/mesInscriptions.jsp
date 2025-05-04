@@ -19,20 +19,21 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <style>
             :root {
-                --primary: #2A2E7F; /* Bleu nuit profond */
-                --primary-light: #4B50A6; /* Bleu plus clair */
-                --accent: #FFD700; /* Doré pour les accents */
-                --background: #F8FAFC; /* Fond clair et professionnel */
-                --card-bg: #FFFFFF; /* Fond des cartes */
-                --text-dark: #1A1C4A; /* Texte sombre */
-                --text-light: #FFFFFF; /* Texte clair */
-                --text-muted: #6B7280; /* Texte secondaire */
-                --shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+                --primary: #7E57C2;
+                --primary-light: #B39DDB;
+                --primary-dark: #5E35B1;
+                --accent: #FF9800;
+                --background: #F9F9F9;
+                --card-bg: #FFFFFF;
+                --text-dark: #212121;
+                --text-light: #F5F5F5;
+                --text-muted: #6B7280;
+                --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
                 --gradient: linear-gradient(135deg, var(--primary), var(--primary-light));
-                --danger: #EF4444; /* Rouge pour annuler */
+                --danger: #EF4444;
                 --gradient-danger: linear-gradient(135deg, #EF4444, #DC2626);
-                --success: #10B981; /* Vert pour succès */
-                --warning: #F59E0B; /* Jaune pour en cours */
+                --success: #10B981;
+                --warning: #F59E0B;
             }
 
             * {
@@ -201,7 +202,7 @@
 
             .action-bar .filter-select:focus {
                 border-color: var(--primary);
-                box-shadow: 0 0 0 3px rgba(42, 46, 127, 0.1);
+                box-shadow: 0 0 0 3px rgba(126, 87, 194, 0.1);
             }
 
             .action-bar .btn-primary {
@@ -216,7 +217,7 @@
             .action-bar .btn-primary:hover {
                 background: var(--primary-light);
                 transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(42, 46, 127, 0.2);
+                box-shadow: 0 5px 15px rgba(126, 87, 194, 0.2);
             }
 
             /* Sessions Container */
@@ -291,7 +292,7 @@
                 font-size: 0.95rem;
                 font-weight: 500;
                 color: var(--primary);
-                background: rgba(42, 46, 127, 0.1);
+                background: rgba(126, 87, 194, 0.1);
                 padding: 4px 14px;
                 border-radius: 20px;
                 display: inline-block;
@@ -317,7 +318,7 @@
             .session-meta-item i {
                 margin-right: 10px;
                 color: var(--primary);
-                background: rgba(42, 46, 127, 0.1);
+                background: rgba(126, 87, 194, 0.1);
                 padding: 8px;
                 border-radius: 50%;
                 width: 30px;
@@ -400,7 +401,7 @@
             .btn-primary:hover {
                 background: var(--primary-light);
                 transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(42, 46, 127, 0.2);
+                box-shadow: 0 5px 15px rgba(126, 87, 194, 0.2);
             }
 
             /* Message Styles */
@@ -505,7 +506,7 @@
                     <%
                         String nomClient = user.getNom();
                     %>
-                    <img src="https://ui-avatars.com/api/?name=<%= nomClient%>&background=2A2E7F&color=fff" alt="<%= nomClient%>">
+                    <img src="https://ui-avatars.com/api/?name=<%= nomClient%>&background=7E57C2&color=fff" alt="<%= nomClient%>">
                     <span><%= nomClient%></span>
                 </div>
             </div>
@@ -618,26 +619,26 @@
         <!-- Bootstrap JS Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                    const cards = document.querySelectorAll('.session-card');
-                            cards.forEach((card, index) = > {
-                            card.style.animationDelay = `${index * 0.1}s`;
-                            });
-                            // Filtre des sessions
-                            const filterSelect = document.querySelector('.filter-select');
-                            filterSelect.addEventListener('change', function() {
-                            const filterValue = this.value;
-                                    const sessionCards = document.querySelectorAll('.session-card');
-                                    sessionCards.forEach(card = > {
-                                    const status = card.querySelector('.status-badge').classList.contains('upcoming') ? 'upcoming' : 'completed';
-                                            if (filterValue === 'all' || filterValue === status) {
-                                    card.parentElement.style.display = 'block';
-                                    } else {
-                                    card.parentElement.style.display = 'none';
-                                    }
-                                    });
-                            });
+            document.addEventListener('DOMContentLoaded', function() {
+                const cards = document.querySelectorAll('.session-card');
+                cards.forEach((card, index) => {
+                    card.style.animationDelay = `${index * 0.1}s`;
+                });
+                // Filtre des sessions
+                const filterSelect = document.querySelector('.filter-select');
+                filterSelect.addEventListener('change', function() {
+                    const filterValue = this.value;
+                    const sessionCards = document.querySelectorAll('.session-card');
+                    sessionCards.forEach(card => {
+                        const status = card.querySelector('.status-badge').classList.contains('upcoming') ? 'upcoming' : 'completed';
+                        if (filterValue === 'all' || filterValue === status) {
+                            card.parentElement.style.display = 'block';
+                        } else {
+                            card.parentElement.style.display = 'none';
+                        }
                     });
+                });
+            });
         </script>
     </body>
 </html>

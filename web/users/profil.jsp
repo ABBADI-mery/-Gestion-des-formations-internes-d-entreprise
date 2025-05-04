@@ -15,14 +15,15 @@
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <style>
             :root {
-                --primary: #2A2E7F; /* Bleu nuit profond */
-                --primary-light: #4B50A6; /* Bleu plus clair */
-                --accent: #FFD700; /* Doré pour les accents */
-                --background: #F5F7FA; /* Fond clair et moderne */
-                --card-bg: #FFFFFF; /* Fond des cartes */
-                --text-dark: #1A1C4A; /* Texte sombre */
-                --text-light: #FFFFFF; /* Texte clair */
-                --shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+                --primary: #7E57C2;
+                --primary-light: #B39DDB;
+                --primary-dark: #5E35B1;
+                --accent: #FF9800;
+                --background: #F9F9F9;
+                --card-bg: #FFFFFF;
+                --text-dark: #212121;
+                --text-light: #F5F5F5;
+                --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
                 --gradient: linear-gradient(135deg, var(--primary), var(--primary-light));
             }
 
@@ -178,7 +179,7 @@
             .profile-info {
                 margin-bottom: 30px;
                 padding: 20px;
-                background: rgba(42, 46, 127, 0.05);
+                background: rgba(126, 87, 194, 0.05);
                 border-radius: 10px;
             }
 
@@ -230,7 +231,7 @@
 
             .form-control:focus {
                 border-color: var(--primary);
-                box-shadow: 0 0 0 3px rgba(42, 46, 127, 0.1);
+                box-shadow: 0 0 0 3px rgba(126, 87, 194, 0.1);
             }
 
             .btn-primary {
@@ -245,7 +246,7 @@
             .btn-primary:hover {
                 background: var(--primary-light);
                 transform: translateY(-2px);
-                box-shadow: 0 5px 15px rgba(42, 46, 127, 0.2);
+                box-shadow: 0 5px 15px rgba(126, 87, 194, 0.2);
             }
 
             /* Message Styles */
@@ -304,11 +305,11 @@
                     <i class="fas fa-calendar-alt"></i>
                     <span>Sessions Disponibles</span>
                 </a>
-                <a href="MesInscriptionsController" class="nav-item">
+                <a href="mesInscriptions.jsp" class="nav-item">
                     <i class="fas fa-list-check"></i>
                     <span>Mes Inscriptions</span>
                 </a>
-                <a href="ProfilController" class="nav-item active">
+                <a href="profil.jsp" class="nav-item active">
                     <i class="fas fa-user"></i>
                     <span>Mon Profil</span>
                 </a>
@@ -327,7 +328,7 @@
                     <%
                         String nomClient = client.getNom();
                     %>
-                    <img src="https://ui-avatars.com/api/?name=<%= nomClient%>&background=2A2E7F&color=fff" alt="<%= nomClient%>">
+                    <img src="https://ui-avatars.com/api/?name=<%= nomClient%>&background=7E57C2&color=fff" alt="<%= nomClient%>">
                     <span><%= nomClient%></span>
                 </div>
             </div>
@@ -362,7 +363,7 @@
 
                 <div class="form-section">
                     <h3>Changer le mot de passe</h3>
-                    <form action="ProfilController" method="post">
+                    <form action="profil.jsp" method="post">
                         <input type="hidden" name="op" value="update">
                         <div class="mb-3">
                             <label for="currentPassword" class="form-label">Mot de passe actuel</label>

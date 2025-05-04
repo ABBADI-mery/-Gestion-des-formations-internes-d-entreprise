@@ -375,7 +375,7 @@
             </c:if>
 
             <fieldset>
-                <legend>Liste des Clients et leurs Formations</legend>
+                <legend>Liste des Clients et leurs Sessions</legend>
                 <table class="table">
                     <thead>
                         <tr>
@@ -390,10 +390,8 @@
                     <tbody>
                         <%
                             List<Client> clients = (List<Client>) request.getAttribute("clients");
-                            if (clients == null) {
-                                out.println("<tr><td colspan='6'>Aucun client trouvé (clients is null).</td></tr>");
-                            } else if (clients.isEmpty()) {
-                                out.println("<tr><td colspan='6'>Aucun client trouvé (clients is empty).</td></tr>");
+                            if (clients == null || clients.isEmpty()) {
+                                out.println("<tr><td colspan='6' style='text-align: center;'>Aucun client trouvé.</td></tr>");
                             } else {
                                 for (Client client : clients) {
                                     boolean hasParticipations = client != null && client.getParticipations() != null && !client.getParticipations().isEmpty();
@@ -401,8 +399,7 @@
                                         for (Participation participation : client.getParticipations()) {
                                             if (participation != null) {
                                                 SessionFormation s = participation.getSessionFormation();
-                                                String formationTitre = (s != null && s.getFormation() != null)
-                                                        ? s.getFormation().getTitre() : "N/A";
+                                                String formationTitre = (s != null && s.getFormation() != null) ? s.getFormation().getTitre() : "N/A";
                         %>
                         <tr>
                             <td><%= client.getId() %></td>
@@ -442,7 +439,7 @@
                             <td><%= client.getId() %></td>
                             <td><%= client.getNom() != null ? client.getNom() : "N/A" %></td>
                             <td><%= client.getEmail() != null ? client.getEmail() : "N/A" %></td>
-                            <td colspan="2">Aucune session associée</td>
+                            <td colspan="2" style="text-align: center;">Aucune session associée</td>
                             <td>
                                 <button type="button" class="btn btn-warning btn-sm" 
                                         data-bs-toggle="modal" data-bs-target="#editClientModal"
