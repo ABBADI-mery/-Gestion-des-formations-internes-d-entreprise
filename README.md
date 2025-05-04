@@ -50,7 +50,11 @@ En résumé, l'objectif est de moderniser la gestion des formations internes, d'
 ![Selection des données dans les table](images/selection2.png)
 
 ## **Vidéo démonstrative** 
-https://github.com/user-attachments/assets/0059b489-d5b0-41ef-8ce9-7eb1e4033df4
+
+
+https://github.com/user-attachments/assets/2fa18bbe-8929-4cec-81d8-19d68e77c112
+
+f4
 
 
 
