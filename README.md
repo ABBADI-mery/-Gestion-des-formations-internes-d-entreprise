@@ -1,60 +1,61 @@
+# 📚 Gestion des Formations Internes d'Entreprise
 
-# Gestion des Formations Internes d'Entreprise
+![Java](https://img.shields.io/badge/Java-17-blue) ![MySQL](https://img.shields.io/badge/MySQL-8.0-blue) ![Bootstrap](https://img.shields.io/badge/Bootstrap-5-purple) ![Chart.js](https://img.shields.io/badge/Chart.js-4.0-orange)
 
-## Contexte
+## 📖 Contexte
 
-Au sein de nombreuses entreprises, la formation continue des employés est un pilier essentiel pour le développement des compétences, l'adaptation aux évolutions du marché et l'amélioration de la performance globale. La gestion de ces formations internes, allant de la planification des sessions à l'inscription des employés et au suivi de leur parcours, peut rapidement devenir complexe sans un système organisé.
+La formation continue des employés est un pilier essentiel pour le développement des compétences, l'adaptation aux évolutions du marché et l'amélioration de la performance globale. La gestion des formations internes, allant de la planification des sessions à l'inscription des employés et au suivi de leur parcours, peut rapidement devenir complexe sans un système organisé.
 
-Actuellement, la gestion des formations internes au sein de notre entreprise est potentiellement réalisée de manière manuelle (tableaux, emails, etc.) ou via des outils non spécifiques, entraînant des difficultés telles que :
+Actuellement, la gestion des formations internes est réalisée de manière manuelle (tableaux, emails, etc.) ou via des outils non spécifiques, entraînant des difficultés telles que :
 
-* **Manque de visibilité sur l'offre de formation :** Les employés peuvent ne pas être pleinement informés des formations disponibles et de leur calendrier.
-* **Processus d'inscription laborieux :** L'inscription aux sessions peut être longue et nécessiter de multiples échanges.
-* **Difficulté de suivi des participations :** Il est complexe d'avoir une vue d'ensemble des formations suivies par chaque employé et des taux de participation par formation.
-* **Absence de statistiques exploitables :** Le manque de données centralisées rend difficile l'analyse de l'efficacité des formations et l'identification des besoins futurs.
+- 🚫 **Manque de visibilité** sur l'offre de formation : Les employés peuvent ne pas être pleinement informés des formations disponibles et de leur calendrier.
+- ⏳ **Processus d'inscription laborieux** : L'inscription aux sessions peut être longue et nécessiter de multiples échanges.
+- 📉 **Difficulté de suivi des participations** : Il est complexe d'avoir une vue d'ensemble des formations suivies par chaque employé et des taux de participation par formation.
+- 📊 **Absence de statistiques exploitables** : Le manque de données centralisées rend difficile l'analyse de l'efficacité des formations et l'identification des besoins futurs.
 
-## Problématique
+## ❓ Problématique
 
 Le manque d'un système centralisé et efficace pour la gestion des formations internes engendre plusieurs problèmes :
 
-* **Inefficacité administrative :** La gestion manuelle consomme du temps et des ressources, augmentant le risque d'erreurs et de perte d'informations.
-* **Faible engagement des employés :** Un manque de clarté sur l'offre et un processus d'inscription complexe peuvent décourager la participation aux formations.
-* **Difficulté d'évaluation de l'impact des formations :** Sans données structurées sur la participation, il est difficile de mesurer le retour sur investissement des actions de formation.
-* **Prise de décision basée sur des informations incomplètes :** L'absence de statistiques fiables entrave la capacité à adapter l'offre de formation aux besoins réels de l'entreprise et des employés.
+- **Inefficacité administrative** : La gestion manuelle consomme du temps et des ressources, augmentant le risque d'erreurs.
+- **Faible engagement des employés** : Un manque de clarté sur l'offre et un processus d'inscription complexe peuvent décourager la participation.
+- **Difficulté d'évaluation** : Sans données structurées, il est difficile de mesurer le retour sur investissement des formations.
+- **Prise de décision limitée** : L'absence de statistiques fiables entrave l'adaptation de l'offre de formation aux besoins réels.
 
-## Objectif
+## 🎯 Objectif
 
-L'objectif principal de ce projet est de développer une application web conviviale et efficace pour la gestion des formations internes de l'entreprise. Cette application permettra de :
+L'objectif est de développer une **application web conviviale et efficace** pour la gestion des formations internes, permettant de :
 
-* **Centraliser l'information :** Offrir un point d'accès unique à toutes les informations concernant les formations (titre, thème, durée), les sessions (date, formateur) et les participants.
-* **Simplifier la planification et l'inscription :** Faciliter la consultation du planning des sessions et permettre aux employés de s'inscrire rapidement aux formations qui les intéressent.
-* **Assurer le suivi des participations :** Maintenir un historique précis des formations suivies par chaque employé.
-* **Fournir des statistiques claires :** Générer des visualisations (via Chart.js) sur la participation par formation afin d'identifier les tendances et d'évaluer l'intérêt des employés.
-* **Améliorer l'expérience utilisateur :** Offrir une interface intuitive et des fonctionnalités d'inscription rapide (via AJAX) pour encourager l'engagement des employés dans leur développement professionnel.
+- 📋 **Centraliser l'information** : Un point d'accès unique pour les formations (titre, thème, durée), sessions (date, formateur) et participants.
+- 🗓️ **Simplifier la planification et l'inscription** : Consultation facile du planning et inscription rapide.
+- 📊 **Fournir des statistiques** : Visualisations (via Chart.js) sur la participation pour identifier les tendances.
+- 😊 **Améliorer l'expérience utilisateur** : Interface intuitive avec inscriptions rapides (via AJAX).
 
-En résumé, l'objectif est de moderniser la gestion des formations internes, d'améliorer l'efficacité administrative, d'accroître l'engagement des employés et de fournir des données exploitables pour optimiser la stratégie de formation de l'entreprise.
+En résumé, moderniser la gestion des formations, améliorer l'efficacité administrative, accroître l'engagement des employés et fournir des données exploitables.
 
-## Diagramme de classe
+## 🛠️ Technologies Utilisées
 
-![Diagramme de classe ](images/diagrammeClasse.png)
+- **Backend** : ☕ Java (Hibernate, Servlets)
+- **Frontend** : 🌐 JSP, 🎨 Bootstrap, 🚀 AJAX
+- **Base de données** : 🗄️ MySQL
+- **Visualisation** : 📈 Chart.js
+- **Outils** :  🗃️ Git
 
-## Modèle conceptuel de la base généré
-![La base de données ](images/Bd.png)
+## 📊 Diagramme de Classe
 
-## Exécution des tests dans la console
-![La création des table : Admin,Client,formation_internes,participations,sessions_foramtion,users ](images/Tables.png)
-![Ajout de clés étrangères ](images/tablesss.png)
-![Insertion des données dans les table:users,Admin,Client ](images/insert1.png)
+![Diagramme de classe](images/diagrammeClasse.png)
 
-![Insertion des données dans les table:formation_internes, sessions_foramtion,participations](images/insert2.png)
-![Selection des données dans les table](images/selection1.png)
-![Selection des données dans les table](images/selection2.png)
+## 🗄️ Modèle Conceptuel de la Base de Données
 
-## **Vidéo démonstrative** 
+![Base de données](images/Bd.png)
 
+## 🏗️ Architecture du Projet
+
+![Architecture](https://github.com/user-attachments/assets/837c5bf2-881c-4de9-8bc3-194f8dbd82d6)
+
+## 🎥 Vidéo Démonstrative
 
 https://github.com/user-attachments/assets/2fa18bbe-8929-4cec-81d8-19d68e77c112
-
-f4
 
 
 
